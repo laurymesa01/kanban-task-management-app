@@ -18,6 +18,9 @@ module.exports = {
       'white': '#FFFFFF',
       'red': '#EA5555',
       'red-hover': '#FF9898'
+    },
+    fontFamily: {
+      'jakarta': 'Plus Jakarta Sans'
     }
   },
   plugins: [],
