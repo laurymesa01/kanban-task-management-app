@@ -8,7 +8,7 @@ body{
   min-width: 320px;
 }
 .h1{
-  @apply text-base md:text-lg lg:text-xl font-bold leading-[30px] text-black;
+  @apply text-base md:text-lg lg:text-xl font-bold leading-[30px] text-black dark:text-white;
 }
 
 .h2{
@@ -16,7 +16,7 @@ body{
 }
 
 .h3{
-  @apply text-sm font-bold leading-[19px] text-black;
+  @apply text-sm font-bold leading-[19px];
 }
 
 .h4{
