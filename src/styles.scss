@@ -2,3 +2,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.h1{
+  @apply text-base md:text-lg lg:text-xl font-bold leading-[30px] text-black;
+}
+
+.h2{
+  @apply text-base font-bold leading-[23px] text-black;
+}
+
+.h3{
+  @apply text-sm font-bold leading-[19px] text-black;
+}
+
+.h4{
+  @apply text-xs font-bold leading-[15px] text-medium-grey tracking-[2.4px];
+}
+
+.body-l{
+  @apply text-[13px] font-medium leading-[23px] text-dark-grey;
+}
+
+.body-m{
+  @apply text-xs font-bold leading-[15px] text-dark-grey;
+}
+
+.button-primary-l{
+  @apply py-4 bg-main-purple text-white text-sm font-bold leading-[19px] hover:bg-main-purple-hover;
+}
+
+.button-primary-s{
+  @apply py-2 bg-main-purple text-white text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover;
+}
+
+.button-secondary{
+  @apply py-2 bg-main-purple bg-opacity-20 text-main-purple text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover hover:bg-opacity-40 dark:bg-white;
+}
+
+.button-destructive{
+  @apply py-2 bg-red text-white text-[13px] font-bold leading-[23px] hover:bg-red-hover;
+}
+
+
+
+
+
