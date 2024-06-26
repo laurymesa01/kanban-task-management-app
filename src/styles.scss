@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  width: 100%;
+  min-width: 320px;
+}
 .h1{
   @apply text-base md:text-lg lg:text-xl font-bold leading-[30px] text-black;
 }
@@ -28,19 +32,19 @@
 }
 
 .button-primary-l{
-  @apply py-4 bg-main-purple text-white text-sm font-bold leading-[19px] hover:bg-main-purple-hover;
+  @apply py-2 md:py-4 bg-main-purple text-white text-sm font-bold leading-[19px] hover:bg-main-purple-hover rounded-full text-center px-4 md:px-6 cursor-pointer disabled:bg-main-purple-hover;
 }
 
 .button-primary-s{
-  @apply py-2 bg-main-purple text-white text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover;
+  @apply py-2 bg-main-purple text-white text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover w-32 cursor-pointer;
 }
 
 .button-secondary{
-  @apply py-2 bg-main-purple bg-opacity-20 text-main-purple text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover hover:bg-opacity-40 dark:bg-white;
+  @apply py-2 bg-main-purple bg-opacity-20 text-main-purple text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover hover:bg-opacity-40 dark:bg-white w-32 cursor-pointer;
 }
 
 .button-destructive{
-  @apply py-2 bg-red text-white text-[13px] font-bold leading-[23px] hover:bg-red-hover;
+  @apply py-2 bg-red text-white text-[13px] font-bold leading-[23px] hover:bg-red-hover w-32 cursor-pointer;
 }
 
 
