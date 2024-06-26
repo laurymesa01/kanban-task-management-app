@@ -21,6 +21,12 @@ module.exports = {
     },
     fontFamily: {
       'jakarta': 'Plus Jakarta Sans'
+    },
+    fontSize: {
+      'xs': '12px',
+      'sm': '15px',
+      'base': '18px',
+      'xl': '24px'
     }
   },
   plugins: [],
