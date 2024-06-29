@@ -18,6 +18,6 @@ export class BoardService {
 
   getBoardByName(name: string){
     const params = new HttpParams().set('name', name);
-    return this.http.get<Board[]>(`${this.url}`, { params });
+    return this.http.get<Board[]>(`${this.url}/boards`, { params });
   }
 }
