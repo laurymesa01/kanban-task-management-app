@@ -8,7 +8,7 @@ import { RouterLink, RouterLinkWithHref, RouterLinkActive } from "@angular/route
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [UpperCasePipe, RouterLink, RouterLinkWithHref, RouterLinkActive],
+  imports: [UpperCasePipe, RouterLink, RouterLinkWithHref, RouterLinkActive, CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

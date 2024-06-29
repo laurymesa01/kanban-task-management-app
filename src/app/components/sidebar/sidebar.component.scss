@@ -1,7 +1,11 @@
-.board-button:focus span{
+.active button span{
   color: white;
 }
 
-.board-button:focus svg path{
+.active button svg path{
   fill: white;
+}
+
+.active button{
+  background-color: #635FC7;
 }
