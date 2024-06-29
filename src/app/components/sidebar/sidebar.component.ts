@@ -15,6 +15,7 @@ export class SidebarComponent {
 
   boards = signal<Board[]>([]);
   boards_service = inject(BoardService);
+  isShownSidebar: boolean = true;
 
   ngOnInit(){
     this.boards_service.getBoards().subscribe({
@@ -22,6 +23,10 @@ export class SidebarComponent {
         this.boards.set(boards)
       }
     })
+  }
+
+  toggleSidebar(){
+    this.isShownSidebar = !this.isShownSidebar;
   }
 
 }
