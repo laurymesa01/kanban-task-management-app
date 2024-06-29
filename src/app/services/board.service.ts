@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Board } from '../models/board.model';
 
@@ -14,5 +14,10 @@ export class BoardService {
 
   getBoards(){
     return this.http.get<Board[]>(`${this.url}/boards`);
+  }
+
+  getBoardByName(name: string){
+    const params = new HttpParams().set('name', name);
+    return this.http.get<Board[]>(`${this.url}`, { params });
   }
 }
