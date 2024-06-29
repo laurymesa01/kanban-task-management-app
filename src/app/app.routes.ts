@@ -7,8 +7,8 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: '',
-        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
+        path: 'board/:name',
+        loadComponent: () => import('./components/board/board.component').then(m => m.BoardComponent),
       }
     ]
   }

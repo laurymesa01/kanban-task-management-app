@@ -3,11 +3,12 @@ import { BoardService } from '../../services/board.service';
 import { Board } from '../../models/board.model';
 import { UpperCasePipe } from "@angular/common";
 import { CommonModule } from "@angular/common";
+import { RouterLink, RouterLinkWithHref, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [UpperCasePipe, CommonModule],
+  imports: [UpperCasePipe, RouterLink, RouterLinkWithHref, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
