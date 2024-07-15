@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { distinctUntilChanged, tap } from 'rxjs';
+import { distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { distinctUntilChanged, tap } from 'rxjs';
 export class HeaderComponent {
 
   buttonAdd: string = '';
+  title: string = '';
 
   Breakpoints = Breakpoints;
   readonly breakpoint$ = this.breakpointObserver
@@ -22,12 +24,15 @@ export class HeaderComponent {
       distinctUntilChanged()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver){}
+  constructor(private breakpointObserver: BreakpointObserver,
+              private route: ActivatedRoute
+  ){}
 
   ngOnInit() {
     this.breakpoint$.subscribe(() =>
     this.breakpointChanged()
     );
+
   }
 
   private breakpointChanged(){

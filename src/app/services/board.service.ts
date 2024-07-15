@@ -20,4 +20,8 @@ export class BoardService {
     const params = new HttpParams().set('name', name);
     return this.http.get<Board[]>(`${this.url}/boards`, { params });
   }
+
+  getTaskByBoard(){
+
+  }
 }

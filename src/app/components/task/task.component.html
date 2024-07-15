@@ -1,0 +1,102 @@
+<div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow p-6 w-[60%] left-[100%] top-28">
+            <!-- Modal header -->
+            <div class="flex flex-col items-center justify-between  rounded-t">
+              <div class="flex">
+                <h2 class="h2 mr-4">
+                  Research pricing points of various competitors and trial different business models
+                </h2>
+                <button type="button" class="text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="static-modal" (click)="toggleMenu()">
+                  <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="#828FA3" fill-rule="evenodd">
+                      <circle cx="2.308" cy="2.308" r="2.308"/>
+                      <circle cx="2.308" cy="10" r="2.308"/>
+                      <circle cx="2.308" cy="17.692" r="2.308"/>
+                    </g>
+                  </svg>
+                </button>
+                @if (isMenuOpen) {
+                  <div class="z-50 absolute -right-20 top-20 w-56 my-4 list-none bg-white divide-y divide-gray-100 rounded-lg" id="language-dropdown-menu">
+                    <ul class="py-2 font-medium" role="none">
+                      <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                            Edit Task
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-red" role="menuitem">
+                          Delete task
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                }
+
+              </div>
+              <p class="body-l mt-6 text-medium-grey">
+                We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.
+              </p>
+            </div>
+            <!-- Modal body -->
+            <div class="mt-6">
+                <p class="body-m mb-4 text-medium-grey">
+                  Subtasks ({{subtasksCompleted}} of {{task().subtasks.length}})
+                </p>
+                @for (subtask of task().subtasks; track $index) {
+                  <div class=" flex mb-2 bg-light-grey rounded-md p-4">
+                    <input  type="checkbox"
+                            name="fullTime"
+                            value=""
+                            class="checkbox mr-2 w-5 text-base h-5 bg-white border border-light-grey rounded-sm  cursor-pointer checked:bg-main-purple appearance-none  checked:border-none"
+                            [checked]="subtask.isCompleted"
+                    />
+                    <p  class="font-bold text-xs text-black"
+                        [ngStyle]="subtask.isCompleted ? {
+                          'text-decoration-line': 'line-through' ,
+                          'opacity': '0.5',
+                          'text-decoration-color': '#828FA3',
+                        }:{}">
+                      {{subtask.title}}
+                    </p>
+                  </div>
+                }
+
+            </div>
+            <!-- Modal footer -->
+            <div class="mt-4">
+              <p class="body-m">Current Status</p>
+              <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mt-4 rounded-lg w-full border border-light-grey px-5 py-2.5 flex items-center justify-between" type="button" (click)="openDropdown()">
+                <span class="body-l">{{task().status}}</span>
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+              </button>
+              @if (isDropdownOpen) {
+                <div class="z-50 absolute right-5 left-5  my-4 list-none bg-white divide-y divide-gray-100 rounded-lg" id="language-dropdown-menu">
+                  <ul class="py-2 font-medium" role="none">
+                    <li>
+                      <p class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                        Todo
+                      </p>
+                    </li>
+                    <li>
+                      <p class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                        Doing
+                      </p>
+                    </li>
+                    <li>
+                      <p class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                        Done
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              }
+
+            </div>
+        </div>
+    </div>
+</div>
+

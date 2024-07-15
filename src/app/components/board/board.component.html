@@ -1,3 +1,25 @@
-<section class="ml-64 px-12">
-  <h1>Board</h1>
+<section class="ml-64 p-8">
+  <section class="grid grid-cols-3 gap-x-4">
+    @for (column of board().columns; track $index) {
+      <section class="flex flex-col space-y-4 ">
+        <div class="flex items-center">
+          <div class="h-3 w-3 rounded-full" [style.background-color]="getColorForTasks(column.name)"></div>
+          <h4 class="h4 ml-4">{{column.name | uppercase}} ({{column.tasks.length}})</h4>
+        </div>
+          @for (task of column.tasks; track $index) {
+            <button class="p-6 bg-white rounded-md shadow-md text-start" (click)="toggleModalTasks(task.title, column.name)">
+              <h3 class="h3 text-black">{{task.title}}</h3>
+              <p class="body-m text-medium-grey mt-2">
+                {{counter}} of {{ task.subtasks.length }} subtasks
+              </p>
+            </button>
+          }
+      </section>
+    }
+  </section>
+
+  @if (isModalTaskOpen) {
+    <app-task [board]="board()" [taskTitle]="taskName" [columnName]="columnName"/>
+  }
+
 </section>
