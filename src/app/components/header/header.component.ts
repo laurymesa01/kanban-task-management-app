@@ -3,12 +3,14 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { NewTaskComponent } from "../new-task/new-task.component";
+import { DeleteBoardComponent } from "../delete-board/delete-board.component";
+
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NewTaskComponent],
+  imports: [NewTaskComponent, DeleteBoardComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -17,6 +19,10 @@ export class HeaderComponent {
   buttonAdd: string = '';
   title: string = '';
   isNewTaskModalOpen: boolean = false;
+  isOptionsMenuOpen: boolean = false;
+  isDeleteModalOpen: boolean = false;
+
+
 
   Breakpoints = Breakpoints;
   readonly breakpoint$ = this.breakpointObserver
@@ -50,4 +56,11 @@ export class HeaderComponent {
     this.isNewTaskModalOpen = !this.isNewTaskModalOpen;
   }
 
+  openOptionsMenu(){
+    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
+  }
+
+  openDeleteBoardModal(){
+    this.isDeleteModalOpen = !this.isDeleteModalOpen;
+  }
 }
