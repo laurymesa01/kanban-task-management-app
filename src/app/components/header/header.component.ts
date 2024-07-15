@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { NewTaskComponent } from "../new-task/new-task.component";
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [NewTaskComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -15,6 +16,7 @@ export class HeaderComponent {
 
   buttonAdd: string = '';
   title: string = '';
+  isNewTaskModalOpen: boolean = false;
 
   Breakpoints = Breakpoints;
   readonly breakpoint$ = this.breakpointObserver
@@ -42,6 +44,10 @@ export class HeaderComponent {
     else if(this.breakpointObserver.isMatched('(max-width:768px)')){
       this.buttonAdd = '';
     }
+  }
+
+  openNewTaskModal(){
+    this.isNewTaskModalOpen = !this.isNewTaskModalOpen;
   }
 
 }

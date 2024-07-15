@@ -1,0 +1,84 @@
+<div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <!-- Modal content -->
+      <div class="relative overflow-y-scroll  bg-white rounded-lg shadow p-6 w-[60%] left-[100%] top-28">
+          <!-- Modal header -->
+          <div class="">
+              <h2 class="h2 mr-4">
+                Add New Task
+              </h2>
+          </div>
+          <!-- Modal body -->
+          <div class="mt-6">
+            <form action="">
+              <div class="flex flex-col">
+                <label for="title" class="body-m text-medium-grey">Title</label>
+                <input type="text" placeholder="e.g. Take coffee break" class="input mt-2">
+              </div>
+              <div class="flex flex-col mt-8">
+                <label for="description" class="body-m text-medium-grey">Description</label>
+                <input type="text" placeholder="e.g. It’s always good to take a break. This 15 minute break will
+                recharge the batteries a little." class="input mt-2 h-36">
+              </div>
+              <div class="flex flex-col mt-8">
+                <label for="description" class="body-m text-medium-grey">Subtasks</label>
+                <div class="flex items-center justify-between">
+                  <input type="text" placeholder="e.g. Make coffee" class="input mt-2 w-[90%]">
+                  <button>
+                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" class="close">
+                      <g fill="#828FA3" fill-rule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g>
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex items-center justify-between">
+                  <input type="text" placeholder="e.g. Drink coffee & smile" class="input mt-2 w-[90%]">
+                  <button>
+                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" class="close">
+                      <g fill="#828FA3" fill-rule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g>
+                    </svg>
+                  </button>
+
+                </div>
+                <button class="button-secondary rounded-full mt-4 w-full">
+                  + Add New Subtask
+                </button>
+              </div>
+              <div class="mt-4">
+                <p class="body-m">Status</p>
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="input mt-2 w-full flex items-center justify-between" type="button" (click)="openDropdown()">
+                  <span class="body-l">Todo</span>
+                  <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke="#635FC7" stroke-width="2" fill="none" d="m1 1 4 4 4-4"/>
+                  </svg>
+                </button>
+                @if (isDropdownOpen) {
+                  <div class="z-50 absolute right-5 left-5  my-4 list-none bg-white divide-y divide-gray-100 rounded-lg" id="language-dropdown-menu">
+                    <ul class="py-2 font-medium" role="none">
+                      <li>
+                        <a class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                          Todo
+                        </a>
+                      </li>
+                      <li>
+                        <a class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                          Doing
+                        </a>
+                      </li>
+                      <li>
+                        <a class="block px-4 py-2 text-sm text-medium-grey" role="menuitem">
+                          Done
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                }
+              </div>
+            </form>
+          </div>
+          <!-- Modal footer -->
+          <button class="button-primary-s rounded-full mt-4 w-full">
+            Create Task
+          </button>
+      </div>
+  </div>
+</div>

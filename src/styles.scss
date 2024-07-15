@@ -36,15 +36,19 @@ body{
 }
 
 .button-primary-s{
-  @apply py-2 bg-main-purple text-white text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover w-32 cursor-pointer;
+  @apply py-2 bg-main-purple text-white text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover cursor-pointer;
 }
 
 .button-secondary{
-  @apply py-2 bg-main-purple bg-opacity-20 text-main-purple text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover hover:bg-opacity-40 dark:bg-white w-32 cursor-pointer;
+  @apply py-2 bg-main-purple bg-opacity-20 text-main-purple text-[13px] font-bold leading-[23px] hover:bg-main-purple-hover hover:bg-opacity-40 dark:bg-white cursor-pointer;
 }
 
 .button-destructive{
   @apply py-2 bg-red text-white text-[13px] font-bold leading-[23px] hover:bg-red-hover w-32 cursor-pointer;
+}
+
+.input{
+  @apply p-3 rounded-md text-black text-sm border-medium-grey border-opacity-40 cursor-pointer focus:outline-none border focus:border-main-purple focus:opacity-100 placeholder:text-black placeholder:opacity-30 placeholder:font-medium  hover:border-main-purple hover:opacity-100 active:border-main-purple;
 }
 
 
