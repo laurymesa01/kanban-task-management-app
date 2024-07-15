@@ -1,5 +1,5 @@
 <section class="ml-64 p-8">
-  <section class="grid grid-cols-3 gap-x-4">
+  <section class="grid grid-cols-4 gap-x-4">
     @for (column of board().columns; track $index) {
       <section class="flex flex-col space-y-4 ">
         <div class="flex items-center">
@@ -16,6 +16,9 @@
           }
       </section>
     }
+    <button class="mt-8 bg-lines-light rounded-md" >
+      <span class="h1 text-medium-grey">New Column</span>
+    </button>
   </section>
 
   @if (isModalTaskOpen) {
