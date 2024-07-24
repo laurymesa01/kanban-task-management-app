@@ -8,7 +8,7 @@
         <g fill="#635FC7" fill-rule="evenodd"><rect width="6" height="25" rx="2"/><rect opacity=".75" x="9" width="6" height="25" rx="2"/><rect opacity=".5" x="18" width="6" height="25" rx="2"/></g>
       </svg>
     </div>
-    <h1 class="h1 py-3 ml-2 md:ml-4 md:py-4 lg:py-5 h-full">Platform Launch</h1>
+    <h1 class="h1 py-3 ml-2 md:ml-4 md:py-4 lg:py-5 h-full">{{title}}</h1>
   </div>
   <div class="flex items-center py-3 md:py-4 lg:py-5">
     <button class="button-primary-l" (click)="openNewTaskModal()">
@@ -47,7 +47,7 @@
 </header>
 
 @if (isDeleteModalOpen) {
-  <app-delete-board/>
+  <app-delete-board [isDeleteModalOpen]="isDeleteModalOpen"/>
 }
 
 @if (isNewTaskModalOpen) {

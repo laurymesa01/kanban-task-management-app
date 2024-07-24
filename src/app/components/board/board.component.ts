@@ -29,7 +29,6 @@ export class BoardComponent implements OnInit{
   taskName: string = '';
   columnName: string = '';
 
-
   constructor(private route: ActivatedRoute){ }
 
   ngOnInit(){

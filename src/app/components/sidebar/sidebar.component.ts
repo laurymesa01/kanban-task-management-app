@@ -36,4 +36,8 @@ export class SidebarComponent {
     this.isNewBoardModalOpen = !this.isNewBoardModalOpen;
   }
 
+  sendBoardName(name: string){
+    this.boards_service.getBoardName(name);
+  }
+
 }
