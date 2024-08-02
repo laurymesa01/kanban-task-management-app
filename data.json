@@ -425,6 +425,30 @@
           "tasks": []
         }
       ]
+    },
+    {
+      "name": "Web design",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        }
+      ],
+      "id": 6
+    },
+    {
+      "name": "Driving",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": 7
     }
   ]
 }

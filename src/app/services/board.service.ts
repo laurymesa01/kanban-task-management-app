@@ -26,6 +26,10 @@ export class BoardService {
     return this.http.get<Board[]>(`${this.url}/boards`, { params });
   }
 
+  createNewBoard(board: Board){
+    return this.http.post(`${this.url}/boards`, board);
+  }
+
   deleteBoard(){
     return this.http.delete(this.url);
   }

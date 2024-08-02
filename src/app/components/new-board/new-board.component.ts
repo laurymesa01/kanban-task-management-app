@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from "@angular/common";
+import { BoardService } from '../../services/board.service';
 @Component({
   selector: 'app-new-board',
   standalone: true,
@@ -10,6 +11,9 @@ import { CommonModule } from "@angular/common";
 })
 export class NewBoardComponent implements OnInit{
 
+  @Input() isNewBoardModalOpen: boolean = true;
+
+  board_service = inject(BoardService);
 
   boardFormGroup: FormGroup = this._formBuilder.group({
     name: new FormControl("", [Validators.required, Validators.minLength(1)]),
@@ -50,7 +54,11 @@ export class NewBoardComponent implements OnInit{
 
   createBoard(){
     if (this.boardFormGroup.valid) {
-      console.log(this.boardFormGroup);
+      this.board_service.createNewBoard(this.boardFormGroup.value).subscribe({
+        next: () => {
+          this.isNewBoardModalOpen = !this.isNewBoardModalOpen;
+        }
+      })
     }
   }
 

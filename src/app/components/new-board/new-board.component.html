@@ -1,49 +1,52 @@
-<div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-  <div class="relative p-4 w-full max-w-2xl max-h-full">
-      <!-- Modal content -->
-      <div class="relative overflow-y-scroll  bg-white rounded-lg shadow p-6 w-[60%] left-[100%] top-28">
-          <!-- Modal header -->
-          <div class="">
-              <h2 class="h2 mr-4">
-                Add New Board
-              </h2>
-          </div>
-          <!-- Modal body -->
-          <div class="mt-6">
-            <form [formGroup]="boardFormGroup">
-              <div class="flex flex-col">
-                <label for="title" class="body-m text-medium-grey">Name</label>
-                <input type="text" placeholder="e.g. Web Design" class="input mt-2" formControlName="name" autofocus>
-                @if (this.boardFormGroup.get('name')?.invalid && this.boardFormGroup.get('name')?.touched) {
-                  <span class="text-xs font-medium text-red peer-invalid:visible">
-                    Can't be empty
-                  </span>
-                }
+@if (isNewBoardModalOpen) {
+  <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative overflow-y-scroll  bg-white rounded-lg shadow p-6 w-[60%] left-[100%] top-28">
+            <!-- Modal header -->
+            <div class="">
+                <h2 class="h2 mr-4">
+                  Add New Board
+                </h2>
+            </div>
+            <!-- Modal body -->
+            <div class="mt-6">
+              <form [formGroup]="boardFormGroup">
+                <div class="flex flex-col">
+                  <label for="title" class="body-m text-medium-grey">Name</label>
+                  <input type="text" placeholder="e.g. Web Design" class="input mt-2" formControlName="name" autofocus>
+                  @if (this.boardFormGroup.get('name')?.invalid && this.boardFormGroup.get('name')?.touched) {
+                    <span class="text-xs font-medium text-red peer-invalid:visible">
+                      Can't be empty
+                    </span>
+                  }
 
-              </div>
-              <div class="flex flex-col mt-8" formArrayName="columns">
-                <label for="description" class="body-m text-medium-grey">Columns</label>
-                @for (column of columns().controls; track column; let i = $index) {
-                  <div class="flex items-center justify-between" [formGroupName]="i">
-                    <input type="text" class="input mt-2 w-[90%]" formControlName="name">
-                    <button class="button-close-column" (click)="deleteColumn(i)">
-                      <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" class="close">
-                        <g fill="#828FA3" fill-rule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g>
-                      </svg>
-                    </button>
-                  </div>
-                }
+                </div>
+                <div class="flex flex-col mt-8" formArrayName="columns">
+                  <label for="description" class="body-m text-medium-grey">Columns</label>
+                  @for (column of columns().controls; track column; let i = $index) {
+                    <div class="flex items-center justify-between" [formGroupName]="i">
+                      <input type="text" class="input mt-2 w-[90%]" formControlName="name">
+                      <button class="button-close-column" (click)="deleteColumn(i)">
+                        <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" class="close">
+                          <g fill="#828FA3" fill-rule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g>
+                        </svg>
+                      </button>
+                    </div>
+                  }
 
-                <button class="button-secondary rounded-full mt-4 w-full" (click)="addColumn()">
-                  + Add New Column
-                </button>
-              </div>
-            </form>
-          </div>
-          <!-- Modal footer -->
-          <button class="button-primary-s rounded-full mt-4 w-full" (click)="createBoard()">
-            Create Board
-          </button>
-      </div>
+                  <button class="button-secondary rounded-full mt-4 w-full" (click)="addColumn()">
+                    + Add New Column
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- Modal footer -->
+            <button class="button-primary-s rounded-full mt-4 w-full" (click)="createBoard()">
+              Create Board
+            </button>
+        </div>
+    </div>
   </div>
-</div>
+}
+
