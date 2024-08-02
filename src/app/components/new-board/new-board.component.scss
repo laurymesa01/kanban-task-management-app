@@ -1,3 +1,7 @@
 .button-close-column:hover svg g{
   fill: #EA5555;
 }
+
+input.ng-invalid.ng-touched{
+  border: 2px solid #EA5555;
+}

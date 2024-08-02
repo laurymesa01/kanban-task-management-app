@@ -13,7 +13,13 @@
             <form [formGroup]="boardFormGroup">
               <div class="flex flex-col">
                 <label for="title" class="body-m text-medium-grey">Name</label>
-                <input type="text" placeholder="e.g. Web Design" class="input mt-2" formControlName="name">
+                <input type="text" placeholder="e.g. Web Design" class="input mt-2" formControlName="name" autofocus>
+                @if (this.boardFormGroup.get('name')?.invalid && this.boardFormGroup.get('name')?.touched) {
+                  <span class="text-xs font-medium text-red peer-invalid:visible">
+                    Can't be empty
+                  </span>
+                }
+
               </div>
               <div class="flex flex-col mt-8" formArrayName="columns">
                 <label for="description" class="body-m text-medium-grey">Columns</label>
@@ -35,7 +41,7 @@
             </form>
           </div>
           <!-- Modal footer -->
-          <button class="button-primary-s rounded-full mt-4 w-full">
+          <button class="button-primary-s rounded-full mt-4 w-full" (click)="createBoard()">
             Create Board
           </button>
       </div>

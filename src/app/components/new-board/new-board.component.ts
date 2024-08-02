@@ -1,7 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray, FormArrayName } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { Board } from '../../models/board.model';
 @Component({
   selector: 'app-new-board',
   standalone: true,
@@ -47,6 +46,12 @@ export class NewBoardComponent implements OnInit{
 
   deleteColumn(index: number){
     this.columns().removeAt(index);
+  }
+
+  createBoard(){
+    if (this.boardFormGroup.valid) {
+      console.log(this.boardFormGroup);
+    }
   }
 
 }
