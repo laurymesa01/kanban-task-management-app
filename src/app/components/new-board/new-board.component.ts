@@ -45,10 +45,8 @@ export class NewBoardComponent implements OnInit{
     this.columns().push(column)
   }
 
-
-
-  deleteColumn(){
-
+  deleteColumn(index: number){
+    this.columns().removeAt(index);
   }
 
 }
