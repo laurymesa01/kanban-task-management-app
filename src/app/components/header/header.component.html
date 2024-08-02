@@ -47,7 +47,7 @@
 </header>
 
 @if (isDeleteModalOpen) {
-  <app-delete-board [isDeleteModalOpen]="isDeleteModalOpen"/>
+  <app-delete-board [isDeleteModalOpen]="isDeleteModalOpen" [board]="board()"/>
 }
 
 @if (isNewTaskModalOpen) {

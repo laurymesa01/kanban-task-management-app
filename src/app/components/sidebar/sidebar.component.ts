@@ -37,7 +37,10 @@ export class SidebarComponent {
   }
 
   sendBoardName(name: string){
-    this.boards_service.getBoardName(name);
+    const board = this.boards().find(board =>board.name === name)
+    if (board) {
+      this.boards_service.sendBoard(board);
+    }
   }
 
 }

@@ -11,8 +11,11 @@ export class BoardService {
   private http = inject(HttpClient);
   private url = 'http://localhost:3000';
 
-  private name = new BehaviorSubject<string>('');
-  public currentName$ = this.name.asObservable();
+  private board = new BehaviorSubject<Board>({
+    name: '',
+    columns: []
+  });
+  public currentBoard$ = this.board.asObservable();
 
 
   constructor() { }
@@ -30,12 +33,12 @@ export class BoardService {
     return this.http.post(`${this.url}/boards`, board);
   }
 
-  deleteBoard(){
-    return this.http.delete(this.url);
+  deleteBoard(id: number){
+    return this.http.delete(`${this.url}/boards/${id}`);
   }
 
-  getBoardName(name: string){
-    this.name.next(name);
+  sendBoard(board: Board){
+    this.board.next(board);
   }
 
   // sendBoardName(){
