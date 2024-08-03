@@ -11,7 +11,7 @@
     <h1 class="h1 py-3 ml-2 md:ml-4 md:py-4 lg:py-5 h-full">{{title}}</h1>
   </div>
   <div class="flex items-center py-3 md:py-4 lg:py-5">
-    <button class="button-primary-l" (click)="openNewTaskModal()">
+    <button class="button-primary-l disabled:cursor-auto" (click)="openNewTaskModal()" [disabled]="isButtonAddDisabled">
       {{buttonAdd}}
       <svg class="md:hidden" width="12" height="12" xmlns="http://www.w3.org/2000/svg">
         <path fill="#FFF" d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"/>

@@ -27,6 +27,7 @@ export class HeaderComponent {
   isNewTaskModalOpen: boolean = false;
   isOptionsMenuOpen: boolean = false;
   isDeleteModalOpen: boolean = false;
+  isButtonAddDisabled: boolean = false;
 
   board_service = inject(BoardService);
 
@@ -47,15 +48,10 @@ export class HeaderComponent {
     this.breakpoint$.subscribe(() =>
     this.breakpointChanged()
     );
-    this.board_service.currentBoard$.subscribe(board => {
-      this.board.set(board)
-      if (board.name.length != 0) {
-        this.title = board.name;
-      }
-      else{
-        this.title = 'Platform Launch'
-      }
-    });
+    this.getBoard();
+    if (this.board().columns.length === 0) {
+      this.isButtonAddDisabled = true;
+    }
   }
 
   private breakpointChanged(){
@@ -65,6 +61,18 @@ export class HeaderComponent {
     else if(this.breakpointObserver.isMatched('(max-width:768px)')){
       this.buttonAdd = '';
     }
+  }
+
+  getBoard(){
+    this.board_service.currentBoard$.subscribe(board => {
+      this.board.set(board)
+      if (board.name.length != 0) {
+        this.title = board.name;
+      }
+      else{
+        this.title = 'Platform Launch'
+      }
+    });
   }
 
   openNewTaskModal(){
