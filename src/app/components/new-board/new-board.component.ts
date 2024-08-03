@@ -2,6 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { BoardService } from '../../services/board.service';
+import { Board } from '../../models/board.model';
 @Component({
   selector: 'app-new-board',
   standalone: true,
@@ -12,6 +13,8 @@ import { BoardService } from '../../services/board.service';
 export class NewBoardComponent implements OnInit{
 
   @Input() isNewBoardModalOpen: boolean = true;
+  @Input() isEditBoardModalOpen: boolean = true;
+  @Input() board!: Board;
 
   board_service = inject(BoardService);
 
@@ -21,19 +24,28 @@ export class NewBoardComponent implements OnInit{
   })
 
   constructor(private _formBuilder: FormBuilder){
-    const column = this._formBuilder.group({
-      name: new FormControl("Todo"),
-      tasks: new FormControl([]),
-    });
-    const column2 = this._formBuilder.group({
-      name: new FormControl("Doing"),
-      tasks: new FormControl([]),
-    });
-    this.columns().push(column);
-    this.columns().push(column2);
   }
 
   ngOnInit(){
+    console.log(this.board);
+    if (this.board) {
+      this.boardFormGroup.patchValue({
+        name: this.board.name
+      })
+      this.setColumns();
+    }
+    else{
+      const column = this._formBuilder.group({
+        name: new FormControl("Todo"),
+        tasks: new FormControl([]),
+      });
+      const column2 = this._formBuilder.group({
+        name: new FormControl("Doing"),
+        tasks: new FormControl([]),
+      });
+      this.columns().push(column);
+      this.columns().push(column2);
+    }
   }
 
   columns():FormArray{
@@ -46,6 +58,13 @@ export class NewBoardComponent implements OnInit{
       tasks: new FormControl([]),
     })
     this.columns().push(column)
+  }
+
+  setColumns(){
+    let control = <FormArray>this.boardFormGroup.get('columns');
+    this.board.columns.forEach(c => {
+      control.push(this._formBuilder.group(c))
+    })
   }
 
   deleteColumn(index: number){

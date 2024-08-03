@@ -4,6 +4,7 @@ import { Observable, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { NewTaskComponent } from "../new-task/new-task.component";
 import { DeleteBoardComponent } from "../delete-board/delete-board.component";
+import { NewBoardComponent } from "../new-board/new-board.component";
 import { BoardService } from '../../services/board.service';
 import { Board } from '../../models/board.model';
 
@@ -12,7 +13,7 @@ import { Board } from '../../models/board.model';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NewTaskComponent, DeleteBoardComponent],
+  imports: [NewTaskComponent, DeleteBoardComponent, NewBoardComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -28,6 +29,7 @@ export class HeaderComponent {
   isOptionsMenuOpen: boolean = false;
   isDeleteModalOpen: boolean = false;
   isButtonAddDisabled: boolean = false;
+  isEditBoardModalOpen: boolean = false;
 
   board_service = inject(BoardService);
 
@@ -81,6 +83,11 @@ export class HeaderComponent {
 
   openOptionsMenu(){
     this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
+  }
+
+  openEditBoardModal(){
+    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
+    this.isEditBoardModalOpen = !this.isEditBoardModalOpen;
   }
 
   openDeleteBoardModal(){
