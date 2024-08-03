@@ -76,6 +76,7 @@ export class HeaderComponent {
   }
 
   openDeleteBoardModal(){
+    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
     this.isDeleteModalOpen = !this.isDeleteModalOpen;
   }
 }
