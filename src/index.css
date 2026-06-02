@@ -19,3 +19,33 @@
   --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
 
 }
+
+@layer base {
+  body {
+    font-family: var(--font-plus-jakarta-sans);
+  }
+
+  h1{
+    @apply font-bold text-2xl text-black leading-7.5;
+  }
+
+  h2{
+    @apply font-bold text-lg text-black leading-5.75;
+  }
+
+  h3{
+    @apply font-bold text-[15px] text-black leading-4.75;
+  }
+  
+  .heading-s{
+    @apply font-bold text-xs text-medium-grey leading-3.75 tracking-[2.4px];
+  }
+
+  .body-l{
+    @apply text-[13px] text-black font-medium leading-5.75;
+  }
+
+  .body-m{
+    @apply text-xs text-black font-bold leading-3.75;
+  }
+}
