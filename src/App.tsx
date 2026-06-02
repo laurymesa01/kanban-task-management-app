@@ -1,10 +1,11 @@
 import './App.css'
+import Layout from './pages/Layout'
 
 function App() {
 
   return (
     <>
-    <h1 className='text-3xl text-amber-100'>Hola</h1>
+      <Layout />
     </>
   )
 }
