@@ -48,4 +48,8 @@
   .body-m{
     @apply text-xs text-black font-bold leading-3.75;
   }
+
+  .button-primary-l{
+    @apply flex items-center justify-center gap-2 text-[15px] text-white font-bold leading-4.75  bg-main-purple hover:bg-main-purple-hover py-3 px-6 rounded-full cursor-pointer;
+  }
 }
