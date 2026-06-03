@@ -32,7 +32,7 @@
   }
 
   h2{
-    @apply font-bold text-lg text-black leading-5.75;
+    @apply font-bold text-lg leading-5.75;
   }
 
   .heading-m{
