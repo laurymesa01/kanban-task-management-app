@@ -3,10 +3,12 @@ import Sidebar from '../components/Sidebar';
 
 const Layout = () => {
   return (
-    <main>
-        <Header/>
+    <div className='flex h-screen'>
         <Sidebar/>
-    </main>
+        <div className='flex flex-col flex-1'>
+            <Header/>
+        </div>
+    </div>
   )
 }
 

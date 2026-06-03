@@ -11,12 +11,14 @@
   --color-lines-dark        : #3E3F4E;
   --color-medium-grey       : #828FA3;
   --color-lines-light       : #E4EBFA;
-  --color-light-grey        :  #F4F7FD;
+  --color-light-grey        : #F4F7FD;
   --color-white             : #FFFFFF;
   --color-red               : #EA5555;
   --color-red-hover         : #FF9898;
 
   --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
+
+  --header-height: 97px;
 
 }
 
@@ -33,8 +35,8 @@
     @apply font-bold text-lg text-black leading-5.75;
   }
 
-  h3{
-    @apply font-bold text-[15px] text-black leading-4.75;
+  .heading-m{
+    @apply font-bold text-[15px] leading-4.75;
   }
   
   .heading-s{
