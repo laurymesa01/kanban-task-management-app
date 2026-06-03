@@ -1,4 +1,4 @@
-import { useKanban } from '../context/KanbanContext'
+import { useKanban } from '../context/KanbanContext';
 
 const Sidebar = () => {
   const { state, dispatch } = useKanban()
