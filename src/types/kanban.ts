@@ -1,4 +1,4 @@
-export interface Boards {
+export interface KanbanState {
     boards: Board[];
     activeBoardIndex: number 
 }
@@ -31,3 +31,10 @@ export interface Subtask {
     title:       string;
     isCompleted: boolean;
 }
+
+export type KanbanAction =
+  | { type: 'SELECT_BOARD'; payload: number }
+  | { type: 'ADD_BOARD'; payload: Board }
+  | { type: 'ADD_TASK'; payload: { columnName: string; task: Task } }
+  | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }
+  | { type: 'TOGGLE_SUBTASK'; payload: { taskTitle: string; subtaskTitle: string } }
