@@ -1,6 +1,7 @@
 import Board from '../components/Board';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import TaskDetailPanel from '../components/TaskDetailPanel';
 
 const Layout = () => {
   return (
@@ -10,6 +11,7 @@ const Layout = () => {
             <Header/>
             <Board/>
         </div>
+        <TaskDetailPanel/>
     </div>
   )
 }

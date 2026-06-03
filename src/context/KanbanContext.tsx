@@ -4,7 +4,8 @@ import type { KanbanState, KanbanAction, Board } from '../types/kanban';
 
 export const initialState: KanbanState = {
     boards: data.boards as Board[],
-    activeBoardIndex: 0
+    activeBoardIndex: 0,
+    selectedTask: null,
   }
 
 export const KanbanContext = createContext<{

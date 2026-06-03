@@ -3,7 +3,7 @@ import { useKanban } from '../context/KanbanContext';
 const COLUMN_COLORS = ['#49C4E5', '#8471F2', '#67E2AE', '#F4B550', '#E96E6E'];
 
 const Board = () => {
-  const { state } = useKanban();
+  const { state, dispatch } = useKanban();
   const { boards, activeBoardIndex } = state;
   const activeBoard = boards[activeBoardIndex];
 
@@ -24,7 +24,7 @@ const Board = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {column.tasks.map(task => (
-                  <div key={task.title} className="bg-white rounded-lg p-4 shadow-sm">
+                  <div key={task.title} onClick={() => dispatch({ type: 'SELECT_TASK', payload: task })} className="bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:opacity-80">
                     <h3 className="heading-m text-black">{task.title}</h3>
                     <p className="body-m text-medium-grey mt-2">
                       {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
