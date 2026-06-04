@@ -1,28 +1,8 @@
-import { useState, useRef, type RefObject } from 'react';
-import { createPortal } from 'react-dom';
+import { useRef } from 'react';
 import { useKanban } from '../context/KanbanContext';
-
+import { usePortalAnchor } from '../hooks/usePortalAnchor';
+import EllipsisMenu from './EllipsisMenu';
 import StatusDropdown from "./StatusDropdown";
-
-function usePortalAnchor<T extends HTMLElement>(ref: RefObject<T>) {
-  const [rect, setRect] = useState<DOMRect | null>(null);
-  const toggle = () => setRect(r => r ? null : ref.current?.getBoundingClientRect() ?? null);
-  const close = () => setRect(null);
-  return [rect, toggle, close] as const;
-}
-
-const ActionsMenu = ({ pos }: { pos: DOMRect }) =>
-  createPortal(
-    <div
-      className="fixed bg-white rounded-lg shadow-lg z-100 overflow-hidden w-48"
-      style={{ top: pos.top, left: pos.right + 8 }}
-      onClick={e => e.stopPropagation()}
-    >
-      <button className="w-full text-left px-4 py-3 body-l text-medium-grey cursor-pointer hover:bg-light-grey">Edit Task</button>
-      <button className="w-full text-left px-4 py-3 body-l text-red cursor-pointer hover:bg-light-grey">Delete Task</button>
-    </div>,
-    document.body
-  );
 
 const TaskDetailPanel = () => {
   const { state, dispatch } = useKanban();
@@ -90,7 +70,10 @@ const TaskDetailPanel = () => {
         </div>
       </div>
 
-      {menuRect && <ActionsMenu pos={menuRect} />}
+      {menuRect && <EllipsisMenu pos={menuRect} items={[
+        { label: 'Edit Task', onClick: () => {} },
+        { label: 'Delete Task', onClick: () => {}, destructive: true },
+      ]} />}
       {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} />}
     </div>
   );
