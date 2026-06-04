@@ -1,36 +1,68 @@
+import { useState, useRef } from 'react';
 import { useKanban } from '../context/KanbanContext';
+import StatusDropdown from './StatusDropdown';
 
 const NewTaskPanel = () => {
+  const { state, dispatch } = useKanban();
+  const columns = state.boards[state.activeBoardIndex].columns;
+  const [selectedStatus, setSelectedStatus] = useState(columns[0]?.name ?? '');
+  const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-const { state, dispatch } = useKanban();
+  if (!state.isNewTaskPanelOpen) return null;
 
-if (!state.isNewTaskPanelOpen) return null;
+  const handleToggleDropdown = () => {
+    if (dropdownRect) { setDropdownRect(null); return; }
+    if (buttonRef.current) setDropdownRect(buttonRef.current.getBoundingClientRect());
+  };
+
+  const handleStatusSelect = (status: string) => {
+    setSelectedStatus(status);
+    setDropdownRect(null);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}>
       <div className="bg-white p-6 rounded-lg w-120 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
         <h2>Add New Task</h2>
-        <form>
-          <label>Title</label>
-          <input type="text" />
-          <label>Description</label>
-          <textarea name="" id="" rows={7}></textarea>
+        <form className='mt-6 flex flex-col gap-4'>
+          <label className='body-m text-medium-grey'>Title</label>
+          <input type="text" className='input-form body-l' placeholder='e.g. Take coffee break'/>
+          <label className='body-m text-medium-grey'>Description</label>
+          <textarea 
+            name="" 
+            id="" 
+            rows={7} 
+            className='input-form body-l' 
+            placeholder='e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'>
+          </textarea>
           <div>
-            <label>Subtasks</label>
-            <div>
-              <input type="text" />
-              <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="#828FA3" fillRule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g></svg>
+            <label className='body-m text-medium-grey'>Subtasks</label>
+            <div className='flex items-center gap-3 mt-2 mb-4'>
+              <input type="text" className='input-form body-l' placeholder='e.g. Make coffee'/>
+              <button className='group text-medium-grey hover:text-red cursor-pointer'>
+                <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" fillRule="evenodd"><path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/><path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/></g></svg>
+              </button>
             </div>
-            <button>+ Add New Subtask</button>
+            <button className='button-secondary'>+ Add New Subtask</button>
           </div>
-          <label>Status</label>
-          <select name="" id="">
-            <option value="Todo">Todo</option>
-            <option value="Doing">Doing</option>
-            <option value="Done">Done</option>
-          </select>
+          <label className='body-m text-medium-grey'>Status</label>
+          <button
+            type="button"
+            ref={buttonRef}
+            onClick={handleToggleDropdown}
+            className="w-full flex items-center justify-between border border-lines-light rounded-md px-4 py-3 body-l text-black cursor-pointer focus:outline-none focus:ring-1 focus:ring-main-purple"
+          >
+            {selectedStatus}
+            <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+              <path stroke="#635FC7" strokeWidth="2" fill="none" d={dropdownRect ? 'M9 6 5 2 1 6' : 'M1 1l4 4 4-4'} />
+            </svg>
+          </button>
+          <button className='button-primary-s'>Create Task</button>
         </form>
       </div>
+
+      {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={selectedStatus} onSelect={handleStatusSelect} />}
     </div>
   )
 }

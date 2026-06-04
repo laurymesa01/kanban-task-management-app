@@ -55,7 +55,19 @@
     @apply flex items-center justify-center gap-2 text-[15px] text-white font-bold leading-4.75  bg-main-purple hover:bg-main-purple-hover py-3 px-6 rounded-full cursor-pointer;
   }
 
+  .button-primary-s{
+    @apply text-[13px] leading-5.75 text-center font-bold  text-white bg-main-purple hover:bg-main-purple-hover py-2 px-4 rounded-full cursor-pointer;
+  }
+
   .kanban-checkbox{
     @apply appearance-none w-4 h-4 rounded cursor-pointer border border-lines-light checked:bg-main-purple checked:border-main-purple checked:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20d%3D%22M3%208l3%203%207-7%22%2F%3E%3C%2Fsvg%3E')] bg-center bg-no-repeat shrink-0;
+  }
+
+  .input-form{
+    @apply w-full border border-lines-light bg-transparent rounded-md py-2 px-3 cursor-pointer hover:border-main-purple placeholder:text-black/25 focus:outline-none focus:ring-1 focus:ring-main-purple focus:border-transparent;
+  }
+
+  .button-secondary{
+    @apply w-full py-2 bg-main-purple/10 rounded-full text-main-purple font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-main-purple/25;
   }
 }

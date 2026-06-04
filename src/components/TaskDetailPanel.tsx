@@ -2,6 +2,8 @@ import { useState, useRef, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { useKanban } from '../context/KanbanContext';
 
+import StatusDropdown from "./StatusDropdown";
+
 function usePortalAnchor<T extends HTMLElement>(ref: RefObject<T>) {
   const [rect, setRect] = useState<DOMRect | null>(null);
   const toggle = () => setRect(r => r ? null : ref.current?.getBoundingClientRect() ?? null);
@@ -22,36 +24,10 @@ const ActionsMenu = ({ pos }: { pos: DOMRect }) =>
     document.body
   );
 
-const StatusDropdown = ({ pos, columns, currentStatus, onSelect }: {
-  pos: DOMRect;
-  columns: { name: string }[];
-  currentStatus: string;
-  onSelect: (status: string) => void;
-}) =>
-  createPortal(
-    <div
-      className="fixed bg-white rounded-md shadow-lg z-100 overflow-hidden"
-      style={{ top: pos.bottom + 4, left: pos.left, width: pos.width }}
-      onClick={e => e.stopPropagation()}
-    >
-      {columns.map(col => (
-        <button
-          key={col.name}
-          onClick={() => onSelect(col.name)}
-          className={`w-full text-left px-4 py-3 body-l rounded-md cursor-pointer hover:bg-light-grey hover:text-main-purple ${currentStatus === col.name ? 'bg-light-grey text-main-purple' : 'bg-white text-medium-grey'}`}
-        >
-          {col.name}
-        </button>
-      ))}
-    </div>,
-    document.body
-  );
-
 const TaskDetailPanel = () => {
   const { state, dispatch } = useKanban();
   const task = state.selectedTask;
   const columns = state.boards[state.activeBoardIndex].columns;
-
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
