@@ -70,4 +70,8 @@
   .button-secondary{
     @apply w-full py-2 bg-main-purple/10 rounded-full text-main-purple font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-main-purple/25;
   }
+  
+  .button-destructive{
+    @apply py-2 bg-red rounded-full text-white font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-red-hover;
+  }
 }
