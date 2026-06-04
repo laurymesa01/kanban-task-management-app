@@ -4,7 +4,7 @@ export interface KanbanState {
     selectedTask: Task | null;
     isNewTaskPanelOpen: boolean;
     isNewBoardPanelOpen: boolean;
-
+    isDeleteBoardPanelOpen: boolean;
 }
 
 export interface Board {
@@ -41,6 +41,7 @@ export type KanbanAction =
   | { type: 'SELECT_TASK'; payload: Task | null }
   | { type: 'TOGGLE_NEW_TASK_PANEL' }
   | { type: 'TOGGLE_NEW_BOARD_PANEL' }
+  | { type: 'TOGGLE_DELETE_BOARD_PANEL' }
   | { type: 'ADD_BOARD'; payload: Board }
   | { type: 'ADD_TASK'; payload: { columnName: string; task: Task } }
   | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }
