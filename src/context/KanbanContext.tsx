@@ -6,6 +6,7 @@ export const initialState: KanbanState = {
     boards: data.boards as Board[],
     activeBoardIndex: 0,
     selectedTask: null,
+    isNewTaskPanelOpen: false,
   }
 
 export const KanbanContext = createContext<{

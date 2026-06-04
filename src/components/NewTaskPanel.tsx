@@ -1,7 +1,14 @@
+import { useKanban } from '../context/KanbanContext';
+
 const NewTaskPanel = () => {
+
+const { state, dispatch } = useKanban();
+
+if (!state.isNewTaskPanelOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-120 max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}>
+      <div className="bg-white p-6 rounded-lg w-120 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
         <h2>Add New Task</h2>
         <form>
           <label>Title</label>

@@ -9,6 +9,9 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
         case 'SELECT_TASK':
             return { ...state, selectedTask: action.payload }
 
+        case 'TOGGLE_NEW_TASK_PANEL':
+            return { ...state, isNewTaskPanelOpen: !state.isNewTaskPanelOpen }
+
         case 'MOVE_TASK': {
             const { taskTitle, fromColumn, toColumn } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]
