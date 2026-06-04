@@ -1,7 +1,15 @@
+import { useKanban } from '../context/KanbanContext';
+
 const NewBoardPanel = () => {
+    
+    const { state, dispatch } = useKanban(); 
+
+  if (!state.isNewBoardPanelOpen) return null;
+
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" >
-        <div className="bg-white p-6 rounded-lg w-120 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => dispatch({ type: 'TOGGLE_NEW_BOARD_PANEL' })}>
+        <div className="bg-white p-6 rounded-lg w-90 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
           <h2>Add New Board</h2>
           <form className='mt-6 flex flex-col gap-4'>
             <label className='body-m text-medium-grey'>Name</label>

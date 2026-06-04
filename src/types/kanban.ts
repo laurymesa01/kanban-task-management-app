@@ -3,6 +3,8 @@ export interface KanbanState {
     activeBoardIndex: number;
     selectedTask: Task | null;
     isNewTaskPanelOpen: boolean;
+    isNewBoardPanelOpen: boolean;
+
 }
 
 export interface Board {
@@ -38,6 +40,7 @@ export type KanbanAction =
   | { type: 'SELECT_BOARD'; payload: number }
   | { type: 'SELECT_TASK'; payload: Task | null }
   | { type: 'TOGGLE_NEW_TASK_PANEL' }
+  | { type: 'TOGGLE_NEW_BOARD_PANEL' }
   | { type: 'ADD_BOARD'; payload: Board }
   | { type: 'ADD_TASK'; payload: { columnName: string; task: Task } }
   | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }

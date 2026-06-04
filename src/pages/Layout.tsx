@@ -1,5 +1,6 @@
 import Board from '../components/Board';
 import Header from '../components/Header';
+import NewBoardPanel from '../components/NewBoardPanel';
 import NewTaskPanel from '../components/NewTaskPanel';
 import Sidebar from '../components/Sidebar';
 import TaskDetailPanel from '../components/TaskDetailPanel';
@@ -14,6 +15,7 @@ const Layout = () => {
         </div>
         <TaskDetailPanel/>
         <NewTaskPanel/>
+        <NewBoardPanel/>
     </div>
   )
 }

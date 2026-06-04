@@ -7,6 +7,7 @@ export const initialState: KanbanState = {
     activeBoardIndex: 0,
     selectedTask: null,
     isNewTaskPanelOpen: false,
+    isNewBoardPanelOpen: false,
   }
 
 export const KanbanContext = createContext<{
