@@ -17,7 +17,7 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
                 return { ...state, isNewBoardPanelOpen: !state.isNewBoardPanelOpen }
 
         case 'TOGGLE_DELETE_BOARD_PANEL':
-                return { ...state, IsDeleteBoardPanelOpen: !state.IsDeleteBoardPanelOpen }
+                return { ...state, isDeleteBoardPanelOpen: !state.isDeleteBoardPanelOpen }
 
         case 'MOVE_TASK': {
             const { taskTitle, fromColumn, toColumn } = action.payload
