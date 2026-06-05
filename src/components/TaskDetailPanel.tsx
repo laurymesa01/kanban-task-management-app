@@ -71,8 +71,8 @@ const TaskDetailPanel = () => {
       </div>
 
       {menuRect && <EllipsisMenu pos={menuRect} onClose={closeMenu} items={[
-        { label: 'Edit Task', onClick: () => {} },
-        { label: 'Delete Task', onClick: () => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }), destructive: true },
+        { label: 'Edit Task', onClick: () => { dispatch({ type: 'SELECT_TASK', payload: null }); } },
+        { label: 'Delete Task', onClick: () => { dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }); dispatch({ type: 'SELECT_TASK', payload: null }); }, destructive: true },
       ]} />}
       {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} />}
     </div>
