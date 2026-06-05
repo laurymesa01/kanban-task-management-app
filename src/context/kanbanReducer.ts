@@ -19,6 +19,9 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
         case 'TOGGLE_DELETE_BOARD_PANEL':
                 return { ...state, isDeleteBoardPanelOpen: !state.isDeleteBoardPanelOpen }
 
+        case 'TOGGLE_DELETE_TASK_PANEL':
+                return { ...state, isDeleteTaskPanelOpen: !state.isDeleteTaskPanelOpen }
+
         case 'MOVE_TASK': {
             const { taskTitle, fromColumn, toColumn } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]
