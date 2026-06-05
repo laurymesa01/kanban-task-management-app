@@ -11,7 +11,7 @@ const TaskDetailPanel = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
-  const [menuRect, toggleMenu] = usePortalAnchor(menuButtonRef);
+  const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
 
   if (!task) return null;
 
@@ -70,7 +70,7 @@ const TaskDetailPanel = () => {
         </div>
       </div>
 
-      {menuRect && <EllipsisMenu pos={menuRect} items={[
+      {menuRect && <EllipsisMenu pos={menuRect} onClose={closeMenu} items={[
         { label: 'Edit Task', onClick: () => {} },
         { label: 'Delete Task', onClick: () => {}, destructive: true },
       ]} />}

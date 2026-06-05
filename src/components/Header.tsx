@@ -6,7 +6,7 @@ import EllipsisMenu from './EllipsisMenu';
 const Header = () => {
   const { dispatch } = useKanban();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const [menuRect, toggleMenu] = usePortalAnchor(menuButtonRef);
+  const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
 
   const handleNewTaskPanel = () => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' });
 
@@ -28,7 +28,7 @@ const Header = () => {
           </svg>
         </button>
       </div>
-      {menuRect && <EllipsisMenu pos={menuRect} direction="below" items={[
+      {menuRect && <EllipsisMenu pos={menuRect} direction="below" onClose={closeMenu} items={[
         { label: 'Edit Board', onClick: () => {} },
         { label: 'Delete Board', onClick: () => dispatch({ type: 'TOGGLE_DELETE_BOARD_PANEL' }), destructive: true },
       ]} />}
