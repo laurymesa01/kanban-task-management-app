@@ -32,7 +32,7 @@ const Header = ({ name }: { name: string }) => {
       </div>
 
       {menuRect && <EllipsisMenu pos={menuRect} direction="below" onClose={closeMenu} items={[
-        { label: 'Edit Board', onClick: () => {} },
+        { label: 'Edit Board', onClick: () => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' }) },
         { label: 'Delete Board', onClick: () => dispatch({ type: 'TOGGLE_DELETE_BOARD_PANEL' }), destructive: true },
       ]} />}
     </header>

@@ -32,7 +32,7 @@ const Layout = () => {
       </div>
       <TaskDetailPanel/>
       <NewTaskPanel/>
-      <NewBoardPanel/>
+      {(state.isNewBoardPanelOpen || state.isEditBoardPanelOpen) && <NewBoardPanel />}
       <DeleteConfirmModal
         isOpen={state.isDeleteBoardPanelOpen}
         title="Delete this board?"

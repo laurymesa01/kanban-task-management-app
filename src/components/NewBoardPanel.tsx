@@ -5,10 +5,13 @@ import { CrossIcon } from './icons';
 
 const NewBoardPanel = () => {
   const { state, dispatch } = useKanban();
-  const [boardName, setBoardName] = useState('');
-  const [columns, setColumns] = useState(['Todo', 'Doing']);
+  const isEditMode = state.isEditBoardPanelOpen;
+  const activeBoard = state.boards[state.activeBoardIndex];
 
-  if (!state.isNewBoardPanelOpen) return null;
+  const [boardName, setBoardName] = useState(isEditMode ? activeBoard.name : '');
+  const [columns, setColumns] = useState(
+    isEditMode ? activeBoard.columns.map(col => col.name) : ['Todo', 'Doing']
+  );
 
   const addColumn = () => setColumns(prev => [...prev, '']);
 
@@ -18,22 +21,23 @@ const NewBoardPanel = () => {
   const removeColumn = (index: number) =>
     setColumns(prev => prev.filter((_, i) => i !== index));
 
+  const handleClose = () =>
+    dispatch({ type: isEditMode ? 'TOGGLE_EDIT_BOARD_PANEL' : 'TOGGLE_NEW_BOARD_PANEL' });
+
   const handleSubmit = () => {
     if (!boardName.trim()) return;
-    dispatch({
-      type: 'ADD_BOARD',
-      payload: {
-        name: boardName.trim(),
-        columns: columns
-          .filter(col => col.trim())
-          .map(col => ({ name: col.trim(), tasks: [] })),
-      },
-    });
+    const payload = {
+      name: boardName.trim(),
+      columns: columns
+        .filter(col => col.trim())
+        .map(col => ({ name: col.trim(), tasks: [] })),
+    };
+    dispatch({ type: isEditMode ? 'EDIT_BOARD' : 'ADD_BOARD', payload });
   };
 
   return (
-    <Modal onClose={() => dispatch({ type: 'TOGGLE_NEW_BOARD_PANEL' })} className="w-90 max-h-[90vh] p-6">
-      <h2>Add New Board</h2>
+    <Modal onClose={handleClose} className="w-90 max-h-[90vh] p-6">
+      <h2>{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Name</label>
         <input
@@ -69,7 +73,9 @@ const NewBoardPanel = () => {
             + Add New Column
           </button>
         </div>
-        <button className='button-primary-s'>Create New Board</button>
+        <button className='button-primary-s'>
+          {isEditMode ? 'Save Changes' : 'Create New Board'}
+        </button>
       </form>
     </Modal>
   );

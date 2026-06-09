@@ -30,6 +30,23 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
                 isNewBoardPanelOpen: false,
             }
 
+        case 'TOGGLE_EDIT_BOARD_PANEL':
+            return { ...state, isEditBoardPanelOpen: !state.isEditBoardPanelOpen }
+
+        case 'EDIT_BOARD': {
+            const currentBoard = state.boards[state.activeBoardIndex];
+            const updatedColumns = action.payload.columns.map(newCol => {
+                const existing = currentBoard.columns.find(c => c.name === newCol.name);
+                return existing ?? newCol;
+            });
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex
+                    ? { ...action.payload, columns: updatedColumns }
+                    : board
+            );
+            return { ...state, boards: updatedBoards, isEditBoardPanelOpen: false };
+        }
+
         case 'MOVE_TASK': {
             const { taskTitle, fromColumn, toColumn } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]
