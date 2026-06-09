@@ -16,7 +16,7 @@ const Layout = () => {
 
   return (
     <div className='flex flex-col h-screen'>
-      <Header />
+      <Header name = {activeBoard.name}/>
       <div className='flex flex-row flex-1'>
         <Sidebar isOpen={isSidebarOpen} onHide={() => setIsSidebarOpen(false)} />
         {!isSidebarOpen && (
