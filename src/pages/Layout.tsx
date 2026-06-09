@@ -14,6 +14,13 @@ const Layout = () => {
   const task = state.selectedTask;
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  if (!activeBoard) return (
+    <div className='flex flex-col h-screen'>
+      <Sidebar isOpen={isSidebarOpen} onHide={() => setIsSidebarOpen(false)} />
+      {(state.isNewBoardPanelOpen || state.isEditBoardPanelOpen) && <NewBoardPanel />}
+    </div>
+  );
+
   return (
     <div className='flex flex-col h-screen'>
       <Header name = {activeBoard.name}/>
@@ -37,7 +44,7 @@ const Layout = () => {
         isOpen={state.isDeleteBoardPanelOpen}
         title="Delete this board?"
         description={`Are you sure you want to delete the '${activeBoard.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
-        onConfirm={() => dispatch({ type: 'TOGGLE_DELETE_BOARD_PANEL' })}
+        onConfirm={() => dispatch({ type: 'DELETE_BOARD' })}
         onCancel={() => dispatch({ type: 'TOGGLE_DELETE_BOARD_PANEL' })}
       />
       <DeleteConfirmModal

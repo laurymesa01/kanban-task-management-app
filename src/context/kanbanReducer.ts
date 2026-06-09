@@ -30,6 +30,17 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
                 isNewBoardPanelOpen: false,
             }
 
+        case 'DELETE_BOARD': {
+            const updatedBoards = state.boards.filter((_, i) => i !== state.activeBoardIndex);
+            const newIndex = Math.min(state.activeBoardIndex, updatedBoards.length - 1);
+            return {
+                ...state,
+                boards: updatedBoards,
+                activeBoardIndex: Math.max(0, newIndex),
+                isDeleteBoardPanelOpen: false,
+            };
+        }
+
         case 'TOGGLE_EDIT_BOARD_PANEL':
             return { ...state, isEditBoardPanelOpen: !state.isEditBoardPanelOpen }
 
