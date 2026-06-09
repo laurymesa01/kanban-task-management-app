@@ -11,7 +11,7 @@ const DeleteConfirmModal = ({ isOpen, title, description, onConfirm, onCancel }:
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={onCancel}>
-      <div className="bg-white p-6 rounded-lg w-90 flex flex-col" onClick={e => e.stopPropagation()}>
+      <div className="bg-white dark:bg-dark-grey p-6 rounded-lg w-90 flex flex-col" onClick={e => e.stopPropagation()}>
         <h2 className="text-red">{title}</h2>
         <p className="body-l text-medium-grey mt-4">{description}</p>
         <div className="flex items-center gap-3 mt-6">

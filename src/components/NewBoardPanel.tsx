@@ -9,13 +9,13 @@ const NewBoardPanel = () => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => dispatch({ type: 'TOGGLE_NEW_BOARD_PANEL' })}>
-        <div className="bg-white p-6 rounded-lg w-90 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="bg-white dark:bg-dark-grey p-6 rounded-lg w-90 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
           <h2>Add New Board</h2>
           <form className='mt-6 flex flex-col gap-4'>
-            <label className='body-m text-medium-grey'>Name</label>
+            <label className='body-m text-medium-grey dark:text-white'>Name</label>
             <input type="text" className='input-form body-l' placeholder='e.g. Web design'/>
             <div>
-              <label className='body-m text-medium-grey'>Columns</label>
+              <label className='body-m text-medium-grey dark:text-white'>Columns</label>
               <div className='flex items-center gap-3 mt-2 mb-4'>
                 <input type="text" className='input-form body-l' placeholder='Todo'/>
                 <button className='group text-medium-grey hover:text-red cursor-pointer'>

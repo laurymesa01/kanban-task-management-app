@@ -8,7 +8,7 @@ const StatusDropdown = ({ pos, columns, currentStatus, onSelect }: {
 }) =>
   createPortal(
     <div
-      className="fixed bg-white rounded-md shadow-lg z-100 overflow-hidden"
+      className="fixed bg-white dark:bg-very-dark-grey rounded-md shadow-lg z-100 overflow-hidden"
       style={{ top: pos.bottom + 4, left: pos.left, width: pos.width }}
       onClick={e => e.stopPropagation()}
     >
@@ -16,7 +16,7 @@ const StatusDropdown = ({ pos, columns, currentStatus, onSelect }: {
         <button
           key={col.name}
           onClick={() => onSelect(col.name)}
-          className={`w-full text-left px-4 py-3 body-l rounded-md cursor-pointer hover:bg-light-grey hover:text-main-purple ${currentStatus === col.name ? 'bg-light-grey text-main-purple' : 'bg-white text-medium-grey'}`}
+          className={`w-full text-left px-4 py-3 body-l rounded-md cursor-pointer hover:bg-light-grey dark:hover:bg-very-dark-grey hover:text-main-purple ${currentStatus === col.name ? 'bg-light-grey dark:bg-very-dark-grey text-main-purple' : 'bg-white dark:bg-dark-grey text-medium-grey'}`}
         >
           {col.name}
         </button>

@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;1,500&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-main-purple       : #635FC7;
   --color-main-purple-hover : #A8A4FF;
@@ -28,27 +30,27 @@
   }
 
   h1{
-    @apply font-bold text-2xl text-black leading-7.5;
+    @apply font-bold text-2xl text-black dark:text-white leading-7.5;
   }
 
   h2{
-    @apply font-bold text-lg leading-5.75;
+    @apply font-bold text-lg dark:text-white leading-5.75;
   }
 
   .heading-m{
     @apply font-bold text-[15px] leading-4.75;
   }
-  
+
   .heading-s{
     @apply font-bold text-xs text-medium-grey leading-3.75 tracking-[2.4px];
   }
 
   .body-l{
-    @apply text-[13px] text-black font-medium leading-5.75;
+    @apply text-[13px] text-black dark:text-white font-medium leading-5.75;
   }
 
   .body-m{
-    @apply text-xs text-black font-bold leading-3.75;
+    @apply text-xs text-black dark:text-white font-bold leading-3.75;
   }
 
   .button-primary-l{
@@ -60,15 +62,15 @@
   }
 
   .kanban-checkbox{
-    @apply appearance-none w-4 h-4 rounded cursor-pointer border border-lines-light checked:bg-main-purple checked:border-main-purple checked:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20d%3D%22M3%208l3%203%207-7%22%2F%3E%3C%2Fsvg%3E')] bg-center bg-no-repeat shrink-0;
+    @apply bg-white dark:bg-dark-grey appearance-none w-4 h-4 rounded cursor-pointer border border-lines-light dark:border-lines-dark checked:bg-main-purple checked:border-main-purple checked:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20d%3D%22M3%208l3%203%207-7%22%2F%3E%3C%2Fsvg%3E')] bg-center bg-no-repeat shrink-0;
   }
 
   .input-form{
-    @apply w-full border border-lines-light bg-transparent rounded-md py-2 px-3 cursor-pointer hover:border-main-purple placeholder:text-black/25 focus:outline-none focus:ring-1 focus:ring-main-purple focus:border-transparent;
+    @apply w-full border border-lines-light dark:border-lines-dark bg-transparent rounded-md py-2 px-3 cursor-pointer hover:border-main-purple placeholder:text-black/25 dark:placeholder:text-white/25 dark:text-white focus:outline-none focus:ring-1 focus:ring-main-purple focus:border-transparent;
   }
 
   .button-secondary{
-    @apply w-full py-2 bg-main-purple/10 rounded-full text-main-purple font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-main-purple/25;
+    @apply w-full py-2 bg-main-purple/10 rounded-full text-main-purple font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-main-purple/25 dark:bg-white dark:hover:bg-white;
   }
   
   .button-destructive{

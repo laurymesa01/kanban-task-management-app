@@ -13,7 +13,7 @@ const EllipsisMenu = ({ pos, items, direction = 'right', onClose }: { pos: DOMRe
 
   return createPortal(
     <div
-      className="fixed bg-white rounded-lg shadow-lg z-100 overflow-hidden w-48"
+      className="fixed bg-white dark:bg-very-dark-grey rounded-lg shadow-lg z-100 overflow-hidden w-48"
       style={style}
       onClick={e => e.stopPropagation()}
     >
@@ -21,7 +21,7 @@ const EllipsisMenu = ({ pos, items, direction = 'right', onClose }: { pos: DOMRe
         <button
           key={item.label}
           onClick={() => { item.onClick(); onClose(); }}
-          className={`w-full text-left px-4 py-3 body-l cursor-pointer hover:bg-light-grey ${item.destructive ? 'text-red' : 'text-medium-grey'}`}
+          className={`w-full text-left px-4 py-3 body-l cursor-pointer hover:bg-light-grey dark:hover:bg-dark-grey ${item.destructive ? 'text-red' : 'text-medium-grey'}`}
         >
           {item.label}
         </button>

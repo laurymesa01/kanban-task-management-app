@@ -8,7 +8,7 @@ const Board = () => {
   const activeBoard = boards[activeBoardIndex];
 
   return (
-    <section className="h-full bg-light-grey overflow-y-auto">
+    <section className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-y-auto">
       {activeBoard.columns.length === 0 ? (
         <div className="flex h-full items-center justify-center flex-col gap-6">
           <h2 className="text-medium-grey">This board is empty. Create a new column to get started.</h2>
@@ -24,8 +24,8 @@ const Board = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {column.tasks.map(task => (
-                  <div key={task.title} onClick={() => dispatch({ type: 'SELECT_TASK', payload: task })} className="bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:opacity-80">
-                    <h3 className="heading-m text-black">{task.title}</h3>
+                  <div key={task.title} onClick={() => dispatch({ type: 'SELECT_TASK', payload: task })} className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-pointer hover:opacity-80">
+                    <h3 className="heading-m text-black dark:text-white">{task.title}</h3>
                     <p className="body-m text-medium-grey mt-2">
                       {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
                     </p>
@@ -36,7 +36,7 @@ const Board = () => {
           ))}
           <div className="flex flex-col gap-4 shrink-0">
             <div className="invisible heading-s">placeholder</div>
-            <button className='flex-1 bg-lines-light heading-m text-medium-grey rounded-md px-8 flex items-center gap-1 cursor-pointer'>
+            <button className='flex-1 bg-lines-light dark:bg-lines-dark/50 heading-m text-medium-grey rounded-md px-8 flex items-center gap-1 cursor-pointer'>
               + New Column
             </button>
           </div>

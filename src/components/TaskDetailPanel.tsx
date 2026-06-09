@@ -24,11 +24,11 @@ const TaskDetailPanel = () => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => dispatch({ type: 'SELECT_TASK', payload: null })}>
-      <div className="bg-white rounded-lg w-120 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+      <div className="bg-white dark:bg-dark-grey rounded-lg w-120 max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
 
         <div className="p-6 overflow-y-auto flex-1">
           <div className='flex items-center justify-between'>
-            <h2 className="text-black">{task.title}</h2>
+            <h2 className="text-black dark:text-white">{task.title}</h2>
             <button ref={menuButtonRef} onClick={toggleMenu} className='cursor-pointer'>
               <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg"><g fill="#828FA3" fillRule="evenodd"><circle cx="2.308" cy="2.308" r="2.308"/><circle cx="2.308" cy="10" r="2.308"/><circle cx="2.308" cy="17.692" r="2.308"/></g></svg>
             </button>
@@ -43,9 +43,9 @@ const TaskDetailPanel = () => {
               <p className="body-m mb-4">Subtasks ({completedCount} of {task.subtasks.length})</p>
               <div className="flex flex-col gap-2">
                 {task.subtasks.map(subtask => (
-                  <div key={subtask.title} className="flex items-center gap-3 p-3 rounded-md bg-light-grey cursor-pointer hover:bg-main-purple-hover hover:opacity-100">
+                  <div key={subtask.title} className="flex items-center gap-3 p-3 rounded-md bg-light-grey dark:bg-very-dark-grey cursor-pointer hover:bg-main-purple/25 ">
                     <input type="checkbox" checked={subtask.isCompleted} readOnly className="kanban-checkbox" />
-                    <span className={`body-m ${subtask.isCompleted ? 'line-through text-medium-grey' : 'text-black'}`}>
+                    <span className={`body-m ${subtask.isCompleted ? 'line-through text-black/50 dark:text-white/50' : 'text-black dark:text-white'}`}>
                       {subtask.title}
                     </span>
                   </div>
@@ -56,11 +56,11 @@ const TaskDetailPanel = () => {
         </div>
 
         <div className="px-6 pb-6">
-          <p className="body-m text-medium-grey mb-2">Current Status</p>
+          <p className="body-m text-medium-grey mb-2 dark:text-white">Current Status</p>
           <button
             ref={buttonRef}
             onClick={toggleDropdown}
-            className="w-full flex items-center justify-between border border-lines-light rounded-md px-4 py-3 body-l text-black cursor-pointer active:border-main-purple focus:outline-none focus:ring-1 focus:ring-main-purple"
+            className="w-full flex items-center justify-between border border-lines-light dark:border-lines-dark rounded-md px-4 py-3 body-l text-black dark:text-white cursor-pointer active:border-main-purple focus:outline-none focus:ring-1 focus:ring-main-purple"
           >
             {task.status}
             <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
