@@ -12,7 +12,7 @@ const Board = () => {
       {activeBoard.columns.length === 0 ? (
         <div className="flex h-full items-center justify-center flex-col gap-6">
           <h2 className="text-medium-grey">This board is empty. Create a new column to get started.</h2>
-          <button className="button-primary-l">+ Add New Column</button>
+          <button className="button-primary-l" onClick={() => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' })}>+ Add New Column</button>
         </div>
       ) : (
         <div className="flex gap-6 p-6 h-full overflow-x-auto">
@@ -36,7 +36,10 @@ const Board = () => {
           ))}
           <div className="flex flex-col gap-4 shrink-0">
             <div className="invisible heading-s">placeholder</div>
-            <button className='flex-1 bg-lines-light dark:bg-lines-dark/50 heading-m text-medium-grey rounded-md px-8 flex items-center gap-1 cursor-pointer'>
+            <button
+              onClick={() => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' })}
+              className='flex-1 bg-lines-light dark:bg-lines-dark/50 heading-m text-medium-grey rounded-md px-8 flex items-center gap-1 cursor-pointer hover:text-main-purple'
+            >
               + New Column
             </button>
           </div>
