@@ -7,6 +7,7 @@ export interface KanbanState {
     isDeleteBoardPanelOpen: boolean;
     isDeleteTaskPanelOpen: boolean;
     isEditBoardPanelOpen: boolean;
+    isEditTaskPanelOpen: boolean;
 }
 
 export interface Board {
@@ -50,5 +51,7 @@ export type KanbanAction =
   | { type: 'DELETE_BOARD' }
   | { type: 'TOGGLE_EDIT_BOARD_PANEL' }
   | { type: 'ADD_TASK'; payload: { columnName: string; task: Task } }
+  | { type: 'TOGGLE_EDIT_TASK_PANEL' }
+  | { type: 'EDIT_TASK'; payload: { originalTitle: string; originalStatus: string; task: Task } }
   | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }
   | { type: 'TOGGLE_SUBTASK'; payload: { taskTitle: string; subtaskTitle: string } }

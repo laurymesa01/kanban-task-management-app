@@ -38,7 +38,7 @@ const Layout = () => {
         <Board/>
       </div>
       <TaskDetailPanel/>
-      <NewTaskPanel/>
+      {(state.isNewTaskPanelOpen || state.isEditTaskPanelOpen) && <NewTaskPanel/>}
       {(state.isNewBoardPanelOpen || state.isEditBoardPanelOpen) && <NewBoardPanel />}
       <DeleteConfirmModal
         isOpen={state.isDeleteBoardPanelOpen}

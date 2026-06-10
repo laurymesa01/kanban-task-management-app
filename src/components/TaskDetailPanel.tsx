@@ -15,7 +15,7 @@ const TaskDetailPanel = () => {
   const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
   const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
 
-  if (!task) return null;
+  if (!task || state.isEditTaskPanelOpen) return null;
 
   const completedCount = task.subtasks.filter(s => s.isCompleted).length;
 
@@ -77,7 +77,7 @@ const TaskDetailPanel = () => {
       </div>
 
       {menuRect && <EllipsisMenu pos={menuRect} onClose={closeMenu} items={[
-        { label: 'Edit Task', onClick: () => { dispatch({ type: 'SELECT_TASK', payload: null }); } },
+        { label: 'Edit Task', onClick: () => dispatch({ type: 'TOGGLE_EDIT_TASK_PANEL' }) },
         { label: 'Delete Task', onClick: () => { dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }); dispatch({ type: 'SELECT_TASK', payload: null }); }, destructive: true },
       ]} />}
       {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} />}

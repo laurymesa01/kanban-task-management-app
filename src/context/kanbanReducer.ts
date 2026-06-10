@@ -94,6 +94,45 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, boards: updatedBoards, isNewTaskPanelOpen: false }
         }
 
+        case 'TOGGLE_EDIT_TASK_PANEL':
+            return { ...state, isEditTaskPanelOpen: !state.isEditTaskPanelOpen }
+
+        case 'EDIT_TASK': {
+            const { originalTitle, originalStatus, task } = action.payload
+            const activeBoard = state.boards[state.activeBoardIndex]
+
+            const originalTask = activeBoard.columns
+                .find(col => col.name === originalStatus)
+                ?.tasks.find(t => t.title === originalTitle)
+
+            const updatedTask: Task = {
+                ...task,
+                subtasks: task.subtasks.map(s => {
+                    const existing = originalTask?.subtasks.find(os => os.title === s.title)
+                    return existing ? { ...s, isCompleted: existing.isCompleted } : s
+                }),
+            }
+
+            const updatedColumns = activeBoard.columns.map(col => {
+                if (col.name === originalStatus && col.name === updatedTask.status) {
+                    return { ...col, tasks: col.tasks.map(t => t.title === originalTitle ? updatedTask : t) }
+                }
+                if (col.name === originalStatus) {
+                    return { ...col, tasks: col.tasks.filter(t => t.title !== originalTitle) }
+                }
+                if (col.name === updatedTask.status) {
+                    return { ...col, tasks: [...col.tasks, updatedTask] }
+                }
+                return col
+            })
+
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
+            )
+
+            return { ...state, boards: updatedBoards, selectedTask: updatedTask, isEditTaskPanelOpen: false }
+        }
+
         case 'TOGGLE_SUBTASK': {
             const { taskTitle, subtaskTitle } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]

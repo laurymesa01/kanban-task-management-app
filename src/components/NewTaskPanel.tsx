@@ -7,15 +7,19 @@ import type { Status } from '../types/kanban';
 
 const NewTaskPanel = () => {
   const { state, dispatch } = useKanban();
+  const isEditMode = state.isEditTaskPanelOpen;
+  const task = state.selectedTask;
   const columns = state.boards[state.activeBoardIndex].columns;
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [subtasks, setSubtasks] = useState(['']);
-  const [selectedStatus, setSelectedStatus] = useState(columns[0]?.name ?? '');
+  const [title, setTitle] = useState(isEditMode && task ? task.title : '');
+  const [description, setDescription] = useState(isEditMode && task ? task.description : '');
+  const [subtasks, setSubtasks] = useState(
+    isEditMode && task && task.subtasks.length > 0 ? task.subtasks.map(s => s.title) : ['']
+  );
+  const [selectedStatus, setSelectedStatus] = useState(
+    isEditMode && task ? task.status : (columns[0]?.name ?? '')
+  );
   const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  if (!state.isNewTaskPanelOpen) return null;
 
   const handleToggleDropdown = () => {
     if (dropdownRect) { setDropdownRect(null); return; }
@@ -35,9 +39,12 @@ const NewTaskPanel = () => {
   const removeSubtask = (index: number) =>
     setSubtasks(prev => prev.filter((_, i) => i !== index));
 
+  const handleClose = () =>
+    dispatch({ type: isEditMode ? 'TOGGLE_EDIT_TASK_PANEL' : 'TOGGLE_NEW_TASK_PANEL' });
+
   const handleSubmit = () => {
     if (!title.trim()) return;
-    const task = {
+    const newTask = {
       title: title.trim(),
       description: description.trim(),
       status: selectedStatus as Status,
@@ -45,12 +52,16 @@ const NewTaskPanel = () => {
         .filter(s => s.trim())
         .map(s => ({ title: s.trim(), isCompleted: false })),
     };
-    dispatch({ type: 'ADD_TASK', payload: { columnName: selectedStatus, task } });
+    if (isEditMode && task) {
+      dispatch({ type: 'EDIT_TASK', payload: { originalTitle: task.title, originalStatus: task.status, task: newTask } });
+    } else {
+      dispatch({ type: 'ADD_TASK', payload: { columnName: selectedStatus, task: newTask } });
+    }
   };
 
   return (
-    <Modal onClose={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })} className="w-120 max-h-[90vh] p-6">
-      <h2>Add New Task</h2>
+    <Modal onClose={handleClose} className="w-120 max-h-[90vh] p-6">
+      <h2>{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Title</label>
         <input
@@ -105,7 +116,7 @@ const NewTaskPanel = () => {
           {selectedStatus}
           <ChevronIcon isOpen={!!dropdownRect} />
         </button>
-        <button className='button-primary-s'>Create Task</button>
+        <button className='button-primary-s'>{isEditMode ? 'Save Changes' : 'Create Task'}</button>
       </form>
 
       {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={selectedStatus} onSelect={handleStatusSelect} />}
