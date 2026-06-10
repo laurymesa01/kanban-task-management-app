@@ -15,7 +15,7 @@ const TaskDetailPanel = () => {
   const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
   const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
 
-  if (!task || state.isEditTaskPanelOpen) return null;
+  if (!task || state.isEditTaskPanelOpen || state.isDeleteTaskPanelOpen) return null;
 
   const completedCount = task.subtasks.filter(s => s.isCompleted).length;
 
@@ -78,7 +78,7 @@ const TaskDetailPanel = () => {
 
       {menuRect && <EllipsisMenu pos={menuRect} onClose={closeMenu} items={[
         { label: 'Edit Task', onClick: () => dispatch({ type: 'TOGGLE_EDIT_TASK_PANEL' }) },
-        { label: 'Delete Task', onClick: () => { dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }); dispatch({ type: 'SELECT_TASK', payload: null }); }, destructive: true },
+        { label: 'Delete Task', onClick: () => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }), destructive: true },
       ]} />}
       {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} />}
     </Modal>

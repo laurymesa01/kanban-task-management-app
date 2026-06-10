@@ -133,6 +133,21 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, boards: updatedBoards, selectedTask: updatedTask, isEditTaskPanelOpen: false }
         }
 
+        case 'DELETE_TASK': {
+            const task = state.selectedTask
+            if (!task) return state
+
+            const updatedColumns = state.boards[state.activeBoardIndex].columns.map(col =>
+                col.name === task.status ? { ...col, tasks: col.tasks.filter(t => t.title !== task.title) } : col
+            )
+
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
+            )
+
+            return { ...state, boards: updatedBoards, selectedTask: null, isDeleteTaskPanelOpen: false }
+        }
+
         case 'TOGGLE_SUBTASK': {
             const { taskTitle, subtaskTitle } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]

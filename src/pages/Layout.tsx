@@ -51,7 +51,7 @@ const Layout = () => {
         isOpen={state.isDeleteTaskPanelOpen}
         title="Delete this task?"
         description={`Are you sure you want to delete the '${task?.title}' task and its subtasks? This action cannot be reversed.`}
-        onConfirm={() => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' })}
+        onConfirm={() => dispatch({ type: 'DELETE_TASK' })}
         onCancel={() => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' })}
       />
     </div>
