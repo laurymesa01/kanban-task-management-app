@@ -24,6 +24,10 @@ const TaskDetailPanel = () => {
     closeDropdown();
   };
 
+  const handleToggleSubtask = (subtaskTitle: string) => {
+    dispatch({ type: 'TOGGLE_SUBTASK', payload: { taskTitle: task.title, subtaskTitle } });
+  };
+
   return (
     <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} className="w-120 max-h-[90vh]">
       <div className="p-6 overflow-y-auto flex-1">
@@ -43,12 +47,17 @@ const TaskDetailPanel = () => {
             <p className="body-m mb-4">Subtasks ({completedCount} of {task.subtasks.length})</p>
             <div className="flex flex-col gap-2">
               {task.subtasks.map(subtask => (
-                <div key={subtask.title} className="flex items-center gap-3 p-3 rounded-md bg-light-grey dark:bg-very-dark-grey cursor-pointer hover:bg-main-purple/25">
-                  <input type="checkbox" checked={subtask.isCompleted} readOnly className="kanban-checkbox" />
+                <label key={subtask.title} className="flex items-center gap-3 p-3 rounded-md bg-light-grey dark:bg-very-dark-grey cursor-pointer hover:bg-main-purple/25">
+                  <input
+                    type="checkbox"
+                    checked={subtask.isCompleted}
+                    onChange={() => handleToggleSubtask(subtask.title)}
+                    className="kanban-checkbox"
+                  />
                   <span className={`body-m ${subtask.isCompleted ? 'line-through text-black/50 dark:text-white/50' : 'text-black dark:text-white'}`}>
                     {subtask.title}
                   </span>
-                </div>
+                </label>
               ))}
             </div>
           </div>

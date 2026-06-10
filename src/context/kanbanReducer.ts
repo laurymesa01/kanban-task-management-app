@@ -1,4 +1,4 @@
-import type { KanbanAction, KanbanState } from "../types/kanban";
+import type { KanbanAction, KanbanState, Task } from "../types/kanban";
 import { Status } from "../types/kanban";
 
 export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanState {
@@ -81,6 +81,33 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             )
 
             return { ...state, boards: updatedBoards, selectedTask: updatedTask }
+        }
+
+        case 'TOGGLE_SUBTASK': {
+            const { taskTitle, subtaskTitle } = action.payload
+            const activeBoard = state.boards[state.activeBoardIndex]
+
+            let updatedTask: Task | null = null
+
+            const updatedColumns = activeBoard.columns.map(col => ({
+                ...col,
+                tasks: col.tasks.map(t => {
+                    if (t.title !== taskTitle) return t
+                    updatedTask = {
+                        ...t,
+                        subtasks: t.subtasks.map(s =>
+                            s.title === subtaskTitle ? { ...s, isCompleted: !s.isCompleted } : s
+                        ),
+                    }
+                    return updatedTask
+                }),
+            }))
+
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
+            )
+
+            return { ...state, boards: updatedBoards, selectedTask: updatedTask ?? state.selectedTask }
         }
 
         default:
