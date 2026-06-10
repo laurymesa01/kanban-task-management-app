@@ -83,6 +83,17 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, boards: updatedBoards, selectedTask: updatedTask }
         }
 
+        case 'ADD_TASK': {
+            const { columnName, task } = action.payload
+            const updatedColumns = state.boards[state.activeBoardIndex].columns.map(col =>
+                col.name === columnName ? { ...col, tasks: [...col.tasks, task] } : col
+            )
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
+            )
+            return { ...state, boards: updatedBoards, isNewTaskPanelOpen: false }
+        }
+
         case 'TOGGLE_SUBTASK': {
             const { taskTitle, subtaskTitle } = action.payload
             const activeBoard = state.boards[state.activeBoardIndex]
