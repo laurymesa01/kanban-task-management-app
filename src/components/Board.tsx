@@ -1,4 +1,5 @@
 import { useKanban } from '../context/KanbanContext';
+import type { Status } from '../types/kanban';
 
 const COLUMN_COLORS = ['#49C4E5', '#8471F2', '#67E2AE', '#F4B550', '#E96E6E'];
 
@@ -24,7 +25,7 @@ const Board = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {column.tasks.map(task => (
-                  <div key={task.title} onClick={() => dispatch({ type: 'SELECT_TASK', payload: task })} className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-pointer hover:opacity-80">
+                  <div key={task.title} onClick={() => dispatch({ type: 'SELECT_TASK', payload: { ...task, status: column.name as Status } })} className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-pointer hover:opacity-80">
                     <h3 className="heading-m text-black dark:text-white">{task.title}</h3>
                     <p className="body-m text-medium-grey mt-2">
                       {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
