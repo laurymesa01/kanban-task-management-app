@@ -7,9 +7,10 @@ import logoLight from '../assets/logo-light.svg';
 import logoDark from '../assets/logo-dark.svg';
 
 const Header = ({ name }: { name: string }) => {
-  const { dispatch } = useKanban();
+  const { state, dispatch } = useKanban();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
+  const hasNoColumns = state.boards[state.activeBoardIndex].columns.length === 0;
 
   return (
     <header className="bg-white h-(--header-height) pr-4 flex justify-between border-b border-lines-light dark:border-lines-dark dark:bg-dark-grey">
@@ -22,7 +23,11 @@ const Header = ({ name }: { name: string }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="button-primary-l" onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}>
+        <button
+          className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple"
+          disabled={hasNoColumns}
+          onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}
+        >
           <PlusIcon />
           Add new task
         </button>
