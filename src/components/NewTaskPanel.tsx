@@ -20,6 +20,8 @@ const NewTaskPanel = () => {
   );
   const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [titleError, setTitleError] = useState(false);
+  const [subtaskErrors, setSubtaskErrors] = useState<boolean[]>(subtasks.map(() => false));
 
   const handleToggleDropdown = () => {
     if (dropdownRect) { setDropdownRect(null); return; }
@@ -31,26 +33,38 @@ const NewTaskPanel = () => {
     setDropdownRect(null);
   };
 
-  const addSubtask = () => setSubtasks(prev => [...prev, '']);
+  const addSubtask = () => {
+    setSubtasks(prev => [...prev, '']);
+    setSubtaskErrors(prev => [...prev, false]);
+  };
 
-  const updateSubtask = (index: number, value: string) =>
+  const updateSubtask = (index: number, value: string) => {
     setSubtasks(prev => prev.map((s, i) => (i === index ? value : s)));
+    if (value.trim()) setSubtaskErrors(prev => prev.map((err, i) => (i === index ? false : err)));
+  };
 
-  const removeSubtask = (index: number) =>
+  const removeSubtask = (index: number) => {
     setSubtasks(prev => prev.filter((_, i) => i !== index));
+    setSubtaskErrors(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleClose = () =>
     dispatch({ type: isEditMode ? 'TOGGLE_EDIT_TASK_PANEL' : 'TOGGLE_NEW_TASK_PANEL' });
 
   const handleSubmit = () => {
-    if (!title.trim()) return;
+    const isTitleValid = !!title.trim();
+    const newSubtaskErrors = subtasks.map(s => !s.trim());
+
+    setTitleError(!isTitleValid);
+    setSubtaskErrors(newSubtaskErrors);
+
+    if (!isTitleValid || newSubtaskErrors.some(Boolean)) return;
+
     const newTask = {
       title: title.trim(),
       description: description.trim(),
       status: selectedStatus as Status,
-      subtasks: subtasks
-        .filter(s => s.trim())
-        .map(s => ({ title: s.trim(), isCompleted: false })),
+      subtasks: subtasks.map(s => ({ title: s.trim(), isCompleted: false })),
     };
     if (isEditMode && task) {
       dispatch({ type: 'EDIT_TASK', payload: { originalTitle: task.title, originalStatus: task.status, task: newTask } });
@@ -64,13 +78,18 @@ const NewTaskPanel = () => {
       <h2>{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Title</label>
-        <input
-          type="text"
-          className='input-form body-l'
-          placeholder='e.g. Take coffee break'
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-        />
+        <div className='relative'>
+          <input
+            type="text"
+            className={`input-form body-l ${titleError ? 'border-red' : ''}`}
+            placeholder='e.g. Take coffee break'
+            value={title}
+            onChange={e => { setTitle(e.target.value); if (e.target.value.trim()) setTitleError(false); }}
+          />
+          {titleError && (
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 body-l text-red">Can't be empty</span>
+          )}
+        </div>
         <label className='body-m text-medium-grey dark:text-white'>Description</label>
         <textarea
           rows={7}
@@ -85,13 +104,18 @@ const NewTaskPanel = () => {
           <div className='flex flex-col gap-3 mt-2 mb-4'>
             {subtasks.map((subtask, index) => (
               <div key={index} className='flex items-center gap-3'>
-                <input
-                  type="text"
-                  className='input-form body-l'
-                  placeholder='e.g. Make coffee'
-                  value={subtask}
-                  onChange={e => updateSubtask(index, e.target.value)}
-                />
+                <div className='relative flex-1'>
+                  <input
+                    type="text"
+                    className={`input-form body-l ${subtaskErrors[index] ? 'border-red' : ''}`}
+                    placeholder='e.g. Make coffee'
+                    value={subtask}
+                    onChange={e => updateSubtask(index, e.target.value)}
+                  />
+                  {subtaskErrors[index] && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 body-l text-red">Can't be empty</span>
+                  )}
+                </div>
                 <button
                   type="button"
                   onClick={() => removeSubtask(index)}
