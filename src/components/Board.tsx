@@ -9,14 +9,14 @@ const Board = () => {
   const activeBoard = boards[activeBoardIndex];
 
   return (
-    <section className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-y-auto">
+    <section className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
       {activeBoard.columns.length === 0 ? (
         <div className="flex h-full items-center justify-center flex-col gap-6">
           <h2 className="text-medium-grey">This board is empty. Create a new column to get started.</h2>
           <button className="button-primary-l" onClick={() => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' })}>+ Add New Column</button>
         </div>
       ) : (
-        <div className="flex gap-6 p-6 h-full overflow-x-auto">
+        <div className="flex gap-6 p-6 min-h-full w-max">
           {activeBoard.columns.map((column, index) => (
             <div key={column.name} className="flex flex-col gap-4 w-70 shrink-0">
               <div className="flex items-center gap-3">

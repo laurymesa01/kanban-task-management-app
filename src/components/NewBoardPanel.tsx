@@ -50,7 +50,7 @@ const NewBoardPanel = () => {
   };
 
   return (
-    <Modal onClose={handleClose} className="w-90 max-h-[90vh] p-6">
+    <Modal onClose={handleClose} className="w-90 max-h-[90vh] p-6 overflow-y-auto">
       <h2>{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Name</label>
