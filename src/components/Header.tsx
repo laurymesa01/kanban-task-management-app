@@ -5,6 +5,7 @@ import EllipsisMenu from './EllipsisMenu';
 import { EllipsisIcon, PlusIcon } from './icons';
 import logoLight from '../assets/logo-light.svg';
 import logoDark from '../assets/logo-dark.svg';
+import logoMobile from '../assets/logo-mobile.svg';
 
 const Header = ({ name }: { name: string }) => {
   const { state, dispatch } = useKanban();
@@ -14,22 +15,23 @@ const Header = ({ name }: { name: string }) => {
 
   return (
     <header className="bg-white h-(--header-height) pr-4 flex justify-between border-b border-lines-light dark:border-lines-dark dark:bg-dark-grey">
-      <div className='flex'>
-        <div className='flex items-center pl-4 shrink-0 w-70 border-r border-lines-light dark:border-lines-dark'>
+      <div className='flex items-center'>
+        <div className='hidden md:flex items-center pl-4 shrink-0 w-70 h-full border-r border-lines-light dark:border-lines-dark'>
           <img src={logoLight} alt="Kanban" className="hidden dark:block" />
           <img src={logoDark} alt="Kanban" className="dark:hidden" />
         </div>
+        <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
         <h1 className='ml-4 self-center'>{name}</h1>
       </div>
 
       <div className="flex items-center gap-4">
         <button
-          className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple"
+          className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple px-3 md:px-6"
           disabled={hasNoColumns}
           onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}
         >
           <PlusIcon />
-          Add new task
+          <span className="hidden md:inline">Add new task</span>
         </button>
         <button ref={menuButtonRef} onClick={toggleMenu} className="cursor-pointer">
           <EllipsisIcon />

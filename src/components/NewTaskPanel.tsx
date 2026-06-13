@@ -74,7 +74,7 @@ const NewTaskPanel = () => {
   };
 
   return (
-    <Modal onClose={handleClose} className="w-120 max-h-[90vh] p-6 overflow-y-auto">
+    <Modal onClose={handleClose} className="w-120 max-h-[80vh] p-6 overflow-y-auto">
       <h2>{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Title</label>
@@ -92,7 +92,7 @@ const NewTaskPanel = () => {
         </div>
         <label className='body-m text-medium-grey dark:text-white'>Description</label>
         <textarea
-          rows={7}
+          rows={4}
           className='input-form body-l'
           placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
           value={description}
