@@ -55,3 +55,4 @@ export type KanbanAction =
   | { type: 'DELETE_TASK' }
   | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }
   | { type: 'TOGGLE_SUBTASK'; payload: { taskTitle: string; subtaskTitle: string } }
+  | { type: 'UPDATE_ACTIVE_BOARD_COLUMNS'; payload: Column[] }

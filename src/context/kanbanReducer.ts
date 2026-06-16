@@ -175,6 +175,13 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, boards: updatedBoards, selectedTask: updatedTask ?? state.selectedTask }
         }
 
+        case 'UPDATE_ACTIVE_BOARD_COLUMNS': {
+            const updatedBoards = state.boards.map((board, i) =>
+                i === state.activeBoardIndex ? { ...board, columns: action.payload } : board
+            )
+            return { ...state, boards: updatedBoards }
+        }
+
         default:
             return state;
     }
