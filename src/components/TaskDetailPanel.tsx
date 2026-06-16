@@ -29,7 +29,7 @@ const TaskDetailPanel = () => {
   };
 
   return (
-    <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} className="w-120 max-h-[90vh]">
+    <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} className="w-[90vw] md:w-120 max-h-[90vh]">
       <div className="p-6 overflow-y-auto flex-1">
         <div className='flex items-center justify-between'>
           <h2 className="text-black dark:text-white">{task.title}</h2>

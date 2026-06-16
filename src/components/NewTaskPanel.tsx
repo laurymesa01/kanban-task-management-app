@@ -74,7 +74,7 @@ const NewTaskPanel = () => {
   };
 
   return (
-    <Modal onClose={handleClose} className="w-120 max-h-[80vh] p-6 overflow-y-auto">
+    <Modal onClose={handleClose} className="w-[90vw] md:w-120 max-h-[80vh] p-6 overflow-y-auto">
       <h2>{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label className='body-m text-medium-grey dark:text-white'>Title</label>
