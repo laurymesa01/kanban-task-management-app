@@ -3,15 +3,9 @@ import { useKanban } from '../context/KanbanContext';
 import { BoardIcon, PlusIcon } from './icons';
 import Modal from './Modal';
 
-const SidebarContent = ({ onHide, showHideButton = true }: { onHide: () => void; showHideButton?: boolean }) => {
+const SidebarContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (fn: (d: boolean) => boolean) => void }) => {
   const { state, dispatch } = useKanban();
   const { boards, activeBoardIndex } = state;
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-    localStorage.setItem('darkMode', String(isDark));
-  }, [isDark]);
 
   return (
     <section className="h-full flex flex-col justify-between mt-8">
@@ -53,27 +47,36 @@ const SidebarContent = ({ onHide, showHideButton = true }: { onHide: () => void;
           </button>
           <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M6.474.682c.434-.11.718.406.481.78A6.067 6.067 0 0 0 6.01 4.72c0 3.418 2.827 6.187 6.314 6.187.89.002 1.77-.182 2.584-.54.408-.18.894.165.724.57-1.16 2.775-3.944 4.73-7.194 4.73-4.292 0-7.771-3.41-7.771-7.615 0-3.541 2.466-6.518 5.807-7.37Zm8.433.07c.442-.294.969.232.674.674l-.525.787a1.943 1.943 0 0 0 0 2.157l.525.788c.295.441-.232.968-.674.673l-.787-.525a1.943 1.943 0 0 0-2.157 0l-.786.525c-.442.295-.97-.232-.675-.673l.525-.788a1.943 1.943 0 0 0 0-2.157l-.525-.787c-.295-.442.232-.968.674-.673l.787.525a1.943 1.943 0 0 0 2.157 0Z" fill="#828FA3"/></svg>
         </div>
-        {showHideButton && (
-          <button onClick={onHide} className="mt-6 heading-m text-medium-grey flex items-center gap-1 cursor-pointer">
-            <svg width="18" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M8.522 11.223a4.252 4.252 0 0 1-3.654-5.22l3.654 5.22ZM9 12.25A8.685 8.685 0 0 1 1.5 8a8.612 8.612 0 0 1 2.76-2.864l-.86-1.23A10.112 10.112 0 0 0 .208 7.238a1.5 1.5 0 0 0 0 1.524A10.187 10.187 0 0 0 9 13.75c.414 0 .828-.025 1.239-.074l-1-1.43A8.88 8.88 0 0 1 9 12.25Zm8.792-3.488a10.14 10.14 0 0 1-4.486 4.046l1.504 2.148a.375.375 0 0 1-.092.523l-.648.453a.375.375 0 0 1-.523-.092L3.19 1.044A.375.375 0 0 1 3.282.52L3.93.068a.375.375 0 0 1 .523.092l1.735 2.479A10.308 10.308 0 0 1 9 2.25c3.746 0 7.031 2 8.792 4.988a1.5 1.5 0 0 1 0 1.524ZM16.5 8a8.674 8.674 0 0 0-6.755-4.219A1.75 1.75 0 1 0 12.75 5v-.001a4.25 4.25 0 0 1-1.154 5.366l.834 1.192A8.641 8.641 0 0 0 16.5 8Z" fill="#828FA3"/></svg>
-            Hide Sidebar
-          </button>
-        )}
       </div>
     </section>
   );
 };
 
+const HideSidebarButton = ({ onHide }: { onHide: () => void }) => (
+  <button onClick={onHide} className="mt-6 mx-4 heading-m text-medium-grey flex items-center gap-1 cursor-pointer">
+    <svg width="18" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M8.522 11.223a4.252 4.252 0 0 1-3.654-5.22l3.654 5.22ZM9 12.25A8.685 8.685 0 0 1 1.5 8a8.612 8.612 0 0 1 2.76-2.864l-.86-1.23A10.112 10.112 0 0 0 .208 7.238a1.5 1.5 0 0 0 0 1.524A10.187 10.187 0 0 0 9 13.75c.414 0 .828-.025 1.239-.074l-1-1.43A8.88 8.88 0 0 1 9 12.25Zm8.792-3.488a10.14 10.14 0 0 1-4.486 4.046l1.504 2.148a.375.375 0 0 1-.092.523l-.648.453a.375.375 0 0 1-.523-.092L3.19 1.044A.375.375 0 0 1 3.282.52L3.93.068a.375.375 0 0 1 .523.092l1.735 2.479A10.308 10.308 0 0 1 9 2.25c3.746 0 7.031 2 8.792 4.988a1.5 1.5 0 0 1 0 1.524ZM16.5 8a8.674 8.674 0 0 0-6.755-4.219A1.75 1.75 0 1 0 12.75 5v-.001a4.25 4.25 0 0 1-1.154 5.366l.834 1.192A8.641 8.641 0 0 0 16.5 8Z" fill="#828FA3"/></svg>
+    Hide Sidebar
+  </button>
+);
+
 const Sidebar = ({ isOpen, isMobileOpen, onHide }: { isOpen: boolean; isMobileOpen: boolean; onHide: () => void }) => {
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark);
+    localStorage.setItem('darkMode', String(isDark));
+  }, [isDark]);
+
   return (
     <>
-      <aside className={`hidden md:flex bg-white dark:bg-dark-grey flex-col shrink-0 h-full pb-8 border-r border-lines-light dark:border-lines-dark overflow-hidden transition-all duration-300 ${isOpen ? 'w-70' : 'w-0'}`}>
-        <SidebarContent onHide={onHide} />
+      <aside className={`hidden md:flex flex-col bg-white dark:bg-dark-grey shrink-0 h-full pb-8 border-r border-lines-light dark:border-lines-dark overflow-hidden transition-all duration-300 ${isOpen ? 'w-70' : 'w-0'}`}>
+        <SidebarContent isDark={isDark} setIsDark={setIsDark} />
+        <HideSidebarButton onHide={onHide} />
       </aside>
 
       {isMobileOpen && (
         <Modal onClose={onHide} className="w-70 max-h-[80vh] py-4 overflow-y-auto md:hidden">
-          <SidebarContent onHide={onHide} showHideButton={false} />
+          <SidebarContent isDark={isDark} setIsDark={setIsDark} />
         </Modal>
       )}
     </>

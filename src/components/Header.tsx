@@ -21,12 +21,11 @@ const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSide
           <img src={logoDark} alt="Kanban" className="dark:hidden" />
         </div>
         <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
-        <button onClick={onToggleSidebar} className="ml-4 flex items-center gap-2 cursor-pointer md:pointer-events-none md:cursor-default">
+        <button onClick={onToggleSidebar} className="md:hidden ml-4 flex items-center gap-2 cursor-pointer">
           <h1 className='self-center'>{name}</h1>
-          <span className="md:hidden">
-            <ChevronIcon isOpen={isSidebarOpen} />
-          </span>
+          <ChevronIcon isOpen={isSidebarOpen} />
         </button>
+        <h1 className='hidden md:block ml-4 self-center'>{name}</h1>
       </div>
 
       <div className="flex items-center gap-4">

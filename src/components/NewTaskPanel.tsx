@@ -40,7 +40,7 @@ const NewTaskPanel = () => {
 
   const updateSubtask = (index: number, value: string) => {
     setSubtasks(prev => prev.map((s, i) => (i === index ? value : s)));
-    if (value.trim()) setSubtaskErrors(prev => prev.map((err, i) => (i === index ? false : err)));
+    if (value.trim() && subtaskErrors[index]) setSubtaskErrors(prev => prev.map((err, i) => (i === index ? false : err)));
   };
 
   const removeSubtask = (index: number) => {

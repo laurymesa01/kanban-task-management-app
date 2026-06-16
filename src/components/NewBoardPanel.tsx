@@ -22,7 +22,7 @@ const NewBoardPanel = () => {
 
   const updateColumn = (index: number, value: string) => {
     setColumns(prev => prev.map((col, i) => (i === index ? value : col)));
-    if (value.trim()) setColumnErrors(prev => prev.map((err, i) => (i === index ? false : err)));
+    if (value.trim() && columnErrors[index]) setColumnErrors(prev => prev.map((err, i) => (i === index ? false : err)));
   };
 
   const removeColumn = (index: number) => {

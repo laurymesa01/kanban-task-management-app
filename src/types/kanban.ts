@@ -30,7 +30,6 @@ export interface Task {
 export enum Status {
     Doing = "Doing",
     Done = "Done",
-    Empty = "",
     Todo = "Todo",
 }
 
