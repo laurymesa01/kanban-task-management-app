@@ -2,12 +2,12 @@ import { useRef } from 'react';
 import { useKanban } from '../context/KanbanContext';
 import { usePortalAnchor } from '../hooks/usePortalAnchor';
 import EllipsisMenu from './EllipsisMenu';
-import { EllipsisIcon, PlusIcon } from './icons';
+import { ChevronIcon, EllipsisIcon, PlusIcon } from './icons';
 import logoLight from '../assets/logo-light.svg';
 import logoDark from '../assets/logo-dark.svg';
 import logoMobile from '../assets/logo-mobile.svg';
 
-const Header = ({ name }: { name: string }) => {
+const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSidebarOpen: boolean; onToggleSidebar: () => void }) => {
   const { state, dispatch } = useKanban();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [menuRect, toggleMenu, closeMenu] = usePortalAnchor(menuButtonRef);
@@ -21,7 +21,12 @@ const Header = ({ name }: { name: string }) => {
           <img src={logoDark} alt="Kanban" className="dark:hidden" />
         </div>
         <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
-        <h1 className='ml-4 self-center'>{name}</h1>
+        <button onClick={onToggleSidebar} className="ml-4 flex items-center gap-2 cursor-pointer md:pointer-events-none md:cursor-default">
+          <h1 className='self-center'>{name}</h1>
+          <span className="md:hidden">
+            <ChevronIcon isOpen={isSidebarOpen} />
+          </span>
+        </button>
       </div>
 
       <div className="flex items-center gap-4">

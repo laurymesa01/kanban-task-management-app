@@ -13,23 +13,29 @@ const Layout = () => {
   const activeBoard = state.boards[state.activeBoardIndex];
   const task = state.selectedTask;
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const hideSidebar = () => {
+    setIsSidebarOpen(false);
+    setIsMobileSidebarOpen(false);
+  };
 
   if (!activeBoard) return (
     <div className='flex flex-col h-screen'>
-      <Sidebar isOpen={isSidebarOpen} onHide={() => setIsSidebarOpen(false)} />
+      <Sidebar isOpen={isSidebarOpen} isMobileOpen={isMobileSidebarOpen} onHide={hideSidebar} />
       {(state.isNewBoardPanelOpen || state.isEditBoardPanelOpen) && <NewBoardPanel />}
     </div>
   );
 
   return (
     <div className='flex flex-col h-screen'>
-      <Header name = {activeBoard.name}/>
+      <Header name = {activeBoard.name} isSidebarOpen={isMobileSidebarOpen} onToggleSidebar={() => setIsMobileSidebarOpen(o => !o)} />
       <div className='flex flex-row flex-1'>
-        <Sidebar isOpen={isSidebarOpen} onHide={() => setIsSidebarOpen(false)} />
+        <Sidebar isOpen={isSidebarOpen} isMobileOpen={isMobileSidebarOpen} onHide={hideSidebar} />
         {!isSidebarOpen && (
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="fixed bottom-8 left-0 bg-main-purple hover:bg-main-purple-hover px-5 py-4 rounded-r-full cursor-pointer z-10"
+            className="hidden md:block fixed bottom-8 left-0 bg-main-purple hover:bg-main-purple-hover px-5 py-4 rounded-r-full cursor-pointer z-10"
             aria-label="Show sidebar"
           >
             <svg width="16" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M15.815 4.434A9.055 9.055 0 0 0 8 0 9.055 9.055 0 0 0 .185 4.434a1.333 1.333 0 0 0 0 1.354A9.055 9.055 0 0 0 8 10.222a9.055 9.055 0 0 0 7.815-4.434 1.333 1.333 0 0 0 0-1.354ZM8 8.89A3.776 3.776 0 0 1 4.222 5.11 3.776 3.776 0 0 1 8 1.333a3.776 3.776 0 0 1 3.778 3.778A3.776 3.776 0 0 1 8 8.89Zm0-6.222a2.417 2.417 0 0 0-.718.107 1.333 1.333 0 0 1-1.867 1.867A2.444 2.444 0 1 0 8 2.667Z" fill="#fff"/></svg>
