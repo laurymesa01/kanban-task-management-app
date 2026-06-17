@@ -3,7 +3,7 @@ import { useKanban } from '../context/KanbanContext';
 import { BoardIcon, PlusIcon, SunIcon, MoonIcon, HideSidebarIcon } from './icons';
 import Modal from './Modal';
 
-const SidebarContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (fn: (d: boolean) => boolean) => void }) => {
+const SidebarContent = ({ isDark, setIsDark, onSelectBoard }: { isDark: boolean; setIsDark: (fn: (d: boolean) => boolean) => void; onSelectBoard?: () => void }) => {
   const { state, dispatch } = useKanban();
   const { boards, activeBoardIndex } = state;
 
@@ -15,7 +15,7 @@ const SidebarContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (fn
           {boards.map((board, index) => (
             <button
               key={board.name}
-              onClick={() => dispatch({ type: 'SELECT_BOARD', payload: index })}
+              onClick={() => { dispatch({ type: 'SELECT_BOARD', payload: index }); onSelectBoard?.(); }}
               className={`py-4 px-6 flex items-center gap-2 cursor-pointer rounded-r-full hover:bg-main-purple/10 hover:text-main-purple dark:hover:bg-white dark:hover:text-main-purple ${index === activeBoardIndex ? 'text-white bg-main-purple' : 'text-medium-grey'}`}
             >
               <BoardIcon />
@@ -33,7 +33,7 @@ const SidebarContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (fn
         </button>
       </div>
 
-      <div className="px-4">
+      <div className="px-4 mt-4">
         <div className="w-full flex items-center gap-2 justify-center bg-light-grey dark:bg-very-dark-grey rounded-md py-3">
           <SunIcon />
           <button
@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, isMobileOpen, onHide }: { isOpen: boolean; isMobileOp
 
       {isMobileOpen && (
         <Modal onClose={onHide} className="w-70 max-h-[80vh] py-4 overflow-y-auto md:hidden">
-          <SidebarContent isDark={isDark} setIsDark={setIsDark} />
+          <SidebarContent isDark={isDark} setIsDark={setIsDark} onSelectBoard={onHide} />
         </Modal>
       )}
     </>

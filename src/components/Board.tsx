@@ -73,8 +73,8 @@ const Board = () => {
   if (activeBoard.columns.length === 0) {
     return (
       <section className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
-        <div className="flex h-full items-center justify-center flex-col gap-6">
-          <h2 className="text-medium-grey">This board is empty. Create a new column to get started.</h2>
+        <div className="flex h-full items-center mx-4 justify-center flex-col gap-6">
+          <h2 className="text-medium-grey text-center">This board is empty. Create a new column to get started.</h2>
           <button className="button-primary-l" onClick={() => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' })}>+ Add New Column</button>
         </div>
       </section>
