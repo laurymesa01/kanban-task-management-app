@@ -1,13 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
 import {
-  DndContext, DragOverlay, closestCorners,
-  PointerSensor, useSensor, useSensors, useDroppable,
-  type DragStartEvent, type DragEndEvent, type DragOverEvent,
+  DndContext, DragOverlay, closestCorners, useDroppable,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useKanban } from '../context/KanbanContext';
-import type { Column, Status, Task } from '../types/kanban';
+import { useBoardDnd } from '../hooks/useBoardDnd';
+import type { Status, Task } from '../types/kanban';
 
 const COLUMN_COLORS = ['#49C4E5', '#8471F2', '#67E2AE', '#F4B550', '#E96E6E'];
 
@@ -70,80 +68,7 @@ const DragOverlayCard = ({ task }: { task: Task }) => (
 const Board = () => {
   const { state, dispatch } = useKanban();
   const activeBoard = state.boards[state.activeBoardIndex];
-
-  const [localColumns, setLocalColumns] = useState<Column[]>(activeBoard.columns);
-  const [draggingTitle, setDraggingTitle] = useState<string | null>(null);
-  const [draggingTask, setDraggingTask] = useState<Task | null>(null);
-  const localColumnsRef = useRef(localColumns);
-
-  useEffect(() => { localColumnsRef.current = localColumns; }, [localColumns]);
-
-  const displayColumns = draggingTitle ? localColumns : activeBoard.columns;
-
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
-
-  const findCurrentColumn = (taskTitle: string) =>
-    localColumnsRef.current.find(col => col.tasks.some(t => t.title === taskTitle));
-
-  const handleDragStart = ({ active }: DragStartEvent) => {
-    setLocalColumns(activeBoard.columns);
-    setDraggingTitle(active.id as string);
-    setDraggingTask(active.data.current?.task ?? null);
-  };
-
-  const handleDragOver = ({ active, over }: DragOverEvent) => {
-    if (!over) return;
-
-    const activeTitle = active.id as string;
-    const overId = over.id as string;
-    const isOverColumn = overId.startsWith('col:');
-    const overColName = isOverColumn ? overId.slice(4) : (over.data.current?.columnName as string | undefined);
-
-    if (!overColName) return;
-
-    const currentCol = findCurrentColumn(activeTitle);
-    if (!currentCol) return;
-
-    if (currentCol.name === overColName) {
-      if (!isOverColumn) {
-        setLocalColumns(prev => prev.map(col => {
-          if (col.name !== currentCol.name) return col;
-          const oldIdx = col.tasks.findIndex(t => t.title === activeTitle);
-          const newIdx = col.tasks.findIndex(t => t.title === overId);
-          if (oldIdx === -1 || newIdx === -1 || oldIdx === newIdx) return col;
-          return { ...col, tasks: arrayMove(col.tasks, oldIdx, newIdx) };
-        }));
-      }
-    } else {
-      setLocalColumns(prev => {
-        const task = prev.find(c => c.name === currentCol.name)?.tasks.find(t => t.title === activeTitle);
-        if (!task) return prev;
-        const updatedTask = { ...task, status: overColName as Status };
-        return prev.map(col => {
-          if (col.name === currentCol.name) return { ...col, tasks: col.tasks.filter(t => t.title !== activeTitle) };
-          if (col.name === overColName) {
-            if (isOverColumn) return { ...col, tasks: [...col.tasks, updatedTask] };
-            const overIdx = col.tasks.findIndex(t => t.title === overId);
-            const next = [...col.tasks];
-            next.splice(overIdx >= 0 ? overIdx : next.length, 0, updatedTask);
-            return { ...col, tasks: next };
-          }
-          return col;
-        });
-      });
-    }
-  };
-
-  const handleDragEnd = ({ over }: DragEndEvent) => {
-    setDraggingTitle(null);
-    setDraggingTask(null);
-    if (over) dispatch({ type: 'UPDATE_ACTIVE_BOARD_COLUMNS', payload: localColumnsRef.current });
-  };
-
-  const handleDragCancel = () => {
-    setDraggingTitle(null);
-    setDraggingTask(null);
-  };
+  const { displayColumns, draggingTitle, draggingTask, sensors, handleDragStart, handleDragOver, handleDragEnd, handleDragCancel } = useBoardDnd(activeBoard, dispatch);
 
   if (activeBoard.columns.length === 0) {
     return (
