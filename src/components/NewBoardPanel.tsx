@@ -13,21 +13,42 @@ const NewBoardPanel = () => {
   const columnList = useEditableList(
     isEditMode ? activeBoard.columns.map(col => col.name) : ['Todo', 'Doing']
   );
-  const [nameError, setNameError] = useState(false);
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [columnDupErrors, setColumnDupErrors] = useState<boolean[]>([]);
+
+  const clearColumnDupErrors = () => setColumnDupErrors([]);
 
   const handleClose = () =>
     dispatch({ type: isEditMode ? 'TOGGLE_EDIT_BOARD_PANEL' : 'TOGGLE_NEW_BOARD_PANEL' });
 
   const handleSubmit = () => {
-    const isNameValid = !!boardName.trim();
+    const trimmedName = boardName.trim();
     const isListValid = columnList.validate();
-    setNameError(!isNameValid);
-    if (!isNameValid || !isListValid) return;
+
+    let nameErr: string | null = null;
+    if (!trimmedName) {
+      nameErr = "Can't be empty";
+    } else {
+      const isDuplicate = isEditMode
+        ? state.boards.some((b, i) => i !== state.activeBoardIndex && b.name === trimmedName)
+        : state.boards.some(b => b.name === trimmedName);
+      if (isDuplicate) nameErr = 'Already exists';
+    }
+    setNameError(nameErr);
+
+    const trimmedCols = columnList.items.map(c => c.trim().toLowerCase());
+    const dupErrors = columnList.items.map((_, i) =>
+      trimmedCols[i] !== '' && trimmedCols.indexOf(trimmedCols[i]) !== i
+    );
+    setColumnDupErrors(dupErrors);
+    const hasDupCols = dupErrors.some(Boolean);
+
+    if (nameErr || !isListValid || hasDupCols) return;
 
     dispatch({
       type: isEditMode ? 'EDIT_BOARD' : 'ADD_BOARD',
       payload: {
-        name: boardName.trim(),
+        name: trimmedName,
         columns: columnList.items.map(col => ({ name: col.trim(), tasks: [] })),
       },
     });
@@ -44,10 +65,10 @@ const NewBoardPanel = () => {
             className={`input-form body-l ${nameError ? 'border-red' : ''}`}
             placeholder='e.g. Web design'
             value={boardName}
-            onChange={e => { setBoardName(e.target.value); if (e.target.value.trim()) setNameError(false); }}
+            onChange={e => { setBoardName(e.target.value); if (e.target.value.trim()) setNameError(null); }}
           />
           {nameError && (
-            <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>Can't be empty</span>
+            <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>{nameError}</span>
           )}
         </div>
         <div>
@@ -58,18 +79,20 @@ const NewBoardPanel = () => {
                 <div className='relative flex-1'>
                   <input
                     type="text"
-                    className={`input-form body-l ${columnList.errors[index] ? 'border-red' : ''}`}
+                    className={`input-form body-l ${columnList.errors[index] || columnDupErrors[index] ? 'border-red' : ''}`}
                     placeholder='e.g. Todo'
                     value={col}
-                    onChange={e => columnList.update(index, e.target.value)}
+                    onChange={e => { columnList.update(index, e.target.value); clearColumnDupErrors(); }}
                   />
-                  {columnList.errors[index] && (
-                    <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>Can't be empty</span>
+                  {(columnList.errors[index] || columnDupErrors[index]) && (
+                    <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>
+                      {columnList.errors[index] ? "Can't be empty" : 'Already exists'}
+                    </span>
                   )}
                 </div>
                 <button
                   type="button"
-                  onClick={() => columnList.remove(index)}
+                  onClick={() => { columnList.remove(index); clearColumnDupErrors(); }}
                   className='text-medium-grey hover:text-red cursor-pointer shrink-0'
                 >
                   <CrossIcon />

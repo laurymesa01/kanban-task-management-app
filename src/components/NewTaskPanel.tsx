@@ -22,7 +22,7 @@ const NewTaskPanel = () => {
   );
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
-  const [titleError, setTitleError] = useState(false);
+  const [titleError, setTitleError] = useState<string | null>(null);
 
   const handleStatusSelect = (status: string) => {
     setSelectedStatus(status);
@@ -33,13 +33,25 @@ const NewTaskPanel = () => {
     dispatch({ type: isEditMode ? 'TOGGLE_EDIT_TASK_PANEL' : 'TOGGLE_NEW_TASK_PANEL' });
 
   const handleSubmit = () => {
-    const isTitleValid = !!title.trim();
+    const trimmedTitle = title.trim();
     const isListValid = subtaskList.validate();
-    setTitleError(!isTitleValid);
-    if (!isTitleValid || !isListValid) return;
+
+    let error: string | null = null;
+    if (!trimmedTitle) {
+      error = "Can't be empty";
+    } else {
+      const allTasks = columns.flatMap(col => col.tasks);
+      const isDuplicate = isEditMode && task
+        ? allTasks.some(t => t.title === trimmedTitle && t.title !== task.title)
+        : allTasks.some(t => t.title === trimmedTitle);
+      if (isDuplicate) error = 'Already exists';
+    }
+
+    setTitleError(error);
+    if (error || !isListValid) return;
 
     const newTask = {
-      title: title.trim(),
+      title: trimmedTitle,
       description: description.trim(),
       status: selectedStatus as Status,
       subtasks: subtaskList.items.map(s => ({ title: s.trim(), isCompleted: false })),
@@ -62,10 +74,10 @@ const NewTaskPanel = () => {
             className={`input-form body-l ${titleError ? 'border-red' : ''}`}
             placeholder='e.g. Take coffee break'
             value={title}
-            onChange={e => { setTitle(e.target.value); if (e.target.value.trim()) setTitleError(false); }}
+            onChange={e => { setTitle(e.target.value); if (e.target.value.trim()) setTitleError(null); }}
           />
           {titleError && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 body-l text-red">Can't be empty</span>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 body-l text-red">{titleError}</span>
           )}
         </div>
         <label className='body-m text-medium-grey dark:text-white'>Description</label>
