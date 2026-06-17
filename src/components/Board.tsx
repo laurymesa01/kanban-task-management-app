@@ -77,7 +77,8 @@ const Board = () => {
   const localColumnsRef = useRef(localColumns);
 
   useEffect(() => { localColumnsRef.current = localColumns; }, [localColumns]);
-  useEffect(() => { if (!draggingTitle) setLocalColumns(activeBoard.columns); }, [activeBoard.columns, draggingTitle]);
+
+  const displayColumns = draggingTitle ? localColumns : activeBoard.columns;
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
@@ -85,6 +86,7 @@ const Board = () => {
     localColumnsRef.current.find(col => col.tasks.some(t => t.title === taskTitle));
 
   const handleDragStart = ({ active }: DragStartEvent) => {
+    setLocalColumns(activeBoard.columns);
     setDraggingTitle(active.id as string);
     setDraggingTask(active.data.current?.task ?? null);
   };
@@ -135,14 +137,12 @@ const Board = () => {
   const handleDragEnd = ({ over }: DragEndEvent) => {
     setDraggingTitle(null);
     setDraggingTask(null);
-    if (!over) { setLocalColumns(activeBoard.columns); return; }
-    dispatch({ type: 'UPDATE_ACTIVE_BOARD_COLUMNS', payload: localColumnsRef.current });
+    if (over) dispatch({ type: 'UPDATE_ACTIVE_BOARD_COLUMNS', payload: localColumnsRef.current });
   };
 
   const handleDragCancel = () => {
     setDraggingTitle(null);
     setDraggingTask(null);
-    setLocalColumns(activeBoard.columns);
   };
 
   if (activeBoard.columns.length === 0) {
@@ -167,7 +167,7 @@ const Board = () => {
         onDragCancel={handleDragCancel}
       >
         <div className="flex gap-6 p-6 min-h-full w-max">
-          {localColumns.map((column, index) => (
+          {displayColumns.map((column, index) => (
             <DroppableColumn
               key={column.name}
               name={column.name}
