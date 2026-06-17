@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
 import { useKanban } from '../context/KanbanContext';
+import { usePortalAnchor } from '../hooks/usePortalAnchor';
+import { useEditableList } from '../hooks/useEditableList';
 import StatusDropdown from './StatusDropdown';
 import Modal from './Modal';
 import { CrossIcon, ChevronIcon } from './icons';
@@ -12,40 +14,19 @@ const NewTaskPanel = () => {
   const columns = state.boards[state.activeBoardIndex].columns;
   const [title, setTitle] = useState(isEditMode && task ? task.title : '');
   const [description, setDescription] = useState(isEditMode && task ? task.description : '');
-  const [subtasks, setSubtasks] = useState(
+  const subtaskList = useEditableList(
     isEditMode && task && task.subtasks.length > 0 ? task.subtasks.map(s => s.title) : ['']
   );
   const [selectedStatus, setSelectedStatus] = useState(
     isEditMode && task ? task.status : (columns[0]?.name ?? '')
   );
-  const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [dropdownRect, toggleDropdown, closeDropdown] = usePortalAnchor(buttonRef);
   const [titleError, setTitleError] = useState(false);
-  const [subtaskErrors, setSubtaskErrors] = useState<boolean[]>(subtasks.map(() => false));
-
-  const handleToggleDropdown = () => {
-    if (dropdownRect) { setDropdownRect(null); return; }
-    if (buttonRef.current) setDropdownRect(buttonRef.current.getBoundingClientRect());
-  };
 
   const handleStatusSelect = (status: string) => {
     setSelectedStatus(status);
-    setDropdownRect(null);
-  };
-
-  const addSubtask = () => {
-    setSubtasks(prev => [...prev, '']);
-    setSubtaskErrors(prev => [...prev, false]);
-  };
-
-  const updateSubtask = (index: number, value: string) => {
-    setSubtasks(prev => prev.map((s, i) => (i === index ? value : s)));
-    if (value.trim() && subtaskErrors[index]) setSubtaskErrors(prev => prev.map((err, i) => (i === index ? false : err)));
-  };
-
-  const removeSubtask = (index: number) => {
-    setSubtasks(prev => prev.filter((_, i) => i !== index));
-    setSubtaskErrors(prev => prev.filter((_, i) => i !== index));
+    closeDropdown();
   };
 
   const handleClose = () =>
@@ -53,18 +34,15 @@ const NewTaskPanel = () => {
 
   const handleSubmit = () => {
     const isTitleValid = !!title.trim();
-    const newSubtaskErrors = subtasks.map(s => !s.trim());
-
+    const isListValid = subtaskList.validate();
     setTitleError(!isTitleValid);
-    setSubtaskErrors(newSubtaskErrors);
-
-    if (!isTitleValid || newSubtaskErrors.some(Boolean)) return;
+    if (!isTitleValid || !isListValid) return;
 
     const newTask = {
       title: title.trim(),
       description: description.trim(),
       status: selectedStatus as Status,
-      subtasks: subtasks.map(s => ({ title: s.trim(), isCompleted: false })),
+      subtasks: subtaskList.items.map(s => ({ title: s.trim(), isCompleted: false })),
     };
     if (isEditMode && task) {
       dispatch({ type: 'EDIT_TASK', payload: { originalTitle: task.title, originalStatus: task.status, task: newTask } });
@@ -97,28 +75,27 @@ const NewTaskPanel = () => {
           placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
           value={description}
           onChange={e => setDescription(e.target.value)}
-        >
-        </textarea>
+        />
         <div>
           <label className='body-m text-medium-grey dark:text-white'>Subtasks</label>
           <div className='flex flex-col gap-3 mt-2 mb-4'>
-            {subtasks.map((subtask, index) => (
+            {subtaskList.items.map((subtask, index) => (
               <div key={index} className='flex items-center gap-3'>
                 <div className='relative flex-1'>
                   <input
                     type="text"
-                    className={`input-form body-l ${subtaskErrors[index] ? 'border-red' : ''}`}
+                    className={`input-form body-l ${subtaskList.errors[index] ? 'border-red' : ''}`}
                     placeholder='e.g. Make coffee'
                     value={subtask}
-                    onChange={e => updateSubtask(index, e.target.value)}
+                    onChange={e => subtaskList.update(index, e.target.value)}
                   />
-                  {subtaskErrors[index] && (
+                  {subtaskList.errors[index] && (
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 body-l text-red">Can't be empty</span>
                   )}
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeSubtask(index)}
+                  onClick={() => subtaskList.remove(index)}
                   className='text-medium-grey hover:text-red cursor-pointer shrink-0'
                 >
                   <CrossIcon />
@@ -126,7 +103,7 @@ const NewTaskPanel = () => {
               </div>
             ))}
           </div>
-          <button type="button" onClick={addSubtask} className='button-secondary'>
+          <button type="button" onClick={subtaskList.add} className='button-secondary'>
             + Add New Subtask
           </button>
         </div>
@@ -134,7 +111,7 @@ const NewTaskPanel = () => {
         <button
           type="button"
           ref={buttonRef}
-          onClick={handleToggleDropdown}
+          onClick={toggleDropdown}
           className="w-full flex items-center justify-between border border-lines-light dark:border-lines-dark rounded-md px-4 py-3 body-l text-black dark:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-main-purple"
         >
           {selectedStatus}
