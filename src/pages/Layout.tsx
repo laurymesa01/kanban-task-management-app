@@ -30,7 +30,7 @@ const Layout = () => {
   return (
     <div className='flex flex-col h-screen'>
       <Header name = {activeBoard.name} isSidebarOpen={isMobileSidebarOpen} onToggleSidebar={() => setIsMobileSidebarOpen(o => !o)} />
-      <div className='flex flex-row flex-1'>
+      <div className='flex flex-row flex-1 min-h-0'>
         <Sidebar isOpen={isSidebarOpen} isMobileOpen={isMobileSidebarOpen} onHide={hideSidebar} />
         {!isSidebarOpen && (
           <button
