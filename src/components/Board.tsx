@@ -25,9 +25,9 @@ const SortableTaskCard = ({ task, columnName, draggingTitle }: { task: Task; col
       {...attributes}
       {...listeners}
       onClick={() => draggingTitle !== task.title && dispatch({ type: 'SELECT_TASK', payload: { ...task, status: columnName as Status } })}
-      className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-grab active:cursor-grabbing hover:opacity-80 touch-none"
+      className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-grab active:cursor-grabbing group touch-none"
     >
-      <h3 className="heading-m text-black dark:text-white">{task.title}</h3>
+      <h3 className="heading-m text-black dark:text-white group-hover:text-main-purple">{task.title}</h3>
       <p className="body-m text-medium-grey mt-2">
         {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
       </p>
