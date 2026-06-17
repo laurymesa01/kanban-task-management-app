@@ -16,7 +16,7 @@ const SidebarContent = ({ isDark, setIsDark, onSelectBoard }: { isDark: boolean;
             <button
               key={board.name}
               onClick={() => { dispatch({ type: 'SELECT_BOARD', payload: index }); onSelectBoard?.(); }}
-              className={`py-4 px-6 flex items-center gap-2 cursor-pointer rounded-r-full hover:bg-main-purple/10 hover:text-main-purple dark:hover:bg-white dark:hover:text-main-purple ${index === activeBoardIndex ? 'text-white bg-main-purple' : 'text-medium-grey'}`}
+              className={`py-4 px-6 flex items-center gap-2 cursor-pointer rounded-r-full ${index === activeBoardIndex ? 'text-white bg-main-purple' : 'text-medium-grey hover:bg-main-purple/10 hover:text-main-purple dark:hover:bg-white dark:hover:text-main-purple'}`}
             >
               <BoardIcon />
               <h3 className="heading-m">{board.name}</h3>
