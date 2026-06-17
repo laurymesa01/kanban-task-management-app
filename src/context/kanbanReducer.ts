@@ -4,8 +4,8 @@ import { Status } from "../types/kanban";
 export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanState {
     switch (action.type) {
         
-        case 'SELECT_BOARD': 
-            return { ...state, activeBoardIndex: action.payload }
+        case 'SELECT_BOARD':
+            return { ...state, activeBoardIndex: action.payload, selectedTask: null, isNewTaskPanelOpen: false, isEditTaskPanelOpen: false, isDeleteTaskPanelOpen: false }
 
         case 'SELECT_TASK':
             return { ...state, selectedTask: action.payload }
@@ -14,13 +14,13 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, isNewTaskPanelOpen: !state.isNewTaskPanelOpen }
 
         case 'TOGGLE_NEW_BOARD_PANEL':
-                return { ...state, isNewBoardPanelOpen: !state.isNewBoardPanelOpen }
+            return { ...state, isNewBoardPanelOpen: !state.isNewBoardPanelOpen, selectedTask: !state.isNewBoardPanelOpen ? null : state.selectedTask }
 
         case 'TOGGLE_DELETE_BOARD_PANEL':
-                return { ...state, isDeleteBoardPanelOpen: !state.isDeleteBoardPanelOpen }
+            return { ...state, isDeleteBoardPanelOpen: !state.isDeleteBoardPanelOpen, selectedTask: !state.isDeleteBoardPanelOpen ? null : state.selectedTask }
 
         case 'TOGGLE_DELETE_TASK_PANEL':
-                return { ...state, isDeleteTaskPanelOpen: !state.isDeleteTaskPanelOpen }
+            return { ...state, isDeleteTaskPanelOpen: !state.isDeleteTaskPanelOpen }
 
         case 'ADD_BOARD':
             return {
@@ -42,7 +42,7 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
         }
 
         case 'TOGGLE_EDIT_BOARD_PANEL':
-            return { ...state, isEditBoardPanelOpen: !state.isEditBoardPanelOpen }
+            return { ...state, isEditBoardPanelOpen: !state.isEditBoardPanelOpen, selectedTask: !state.isEditBoardPanelOpen ? null : state.selectedTask }
 
         case 'EDIT_BOARD': {
             const currentBoard = state.boards[state.activeBoardIndex];
@@ -95,7 +95,7 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
         }
 
         case 'TOGGLE_EDIT_TASK_PANEL':
-            return { ...state, isEditTaskPanelOpen: !state.isEditTaskPanelOpen }
+            return { ...state, isEditTaskPanelOpen: !state.isEditTaskPanelOpen, selectedTask: state.isEditTaskPanelOpen ? null : state.selectedTask }
 
         case 'EDIT_TASK': {
             const { originalTitle, originalStatus, task } = action.payload
