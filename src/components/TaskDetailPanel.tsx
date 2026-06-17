@@ -76,7 +76,7 @@ const TaskDetailPanel = () => {
         </button>
       </div>
 
-      {menuRect && <EllipsisMenu pos={menuRect} onClose={closeMenu} items={[
+      {menuRect && <EllipsisMenu pos={menuRect} direction={menuRect.right + 200 > window.innerWidth ? 'below' : 'right'} onClose={closeMenu} items={[
         { label: 'Edit Task', onClick: () => dispatch({ type: 'TOGGLE_EDIT_TASK_PANEL' }) },
         { label: 'Delete Task', onClick: () => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }), destructive: true },
       ]} />}

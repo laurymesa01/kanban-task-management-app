@@ -30,7 +30,7 @@
   }
 
   h1{
-    @apply font-bold text-2xl text-black dark:text-white leading-7.5;
+    @apply font-bold text-lg md:text-2xl text-black dark:text-white leading-7.5;
   }
 
   h2{
@@ -53,20 +53,20 @@
     @apply text-xs text-black dark:text-white font-bold leading-3.75;
   }
 
-  .button-primary-l{
-    @apply flex items-center justify-center gap-2 text-[15px] text-white font-bold leading-4.75  bg-main-purple hover:bg-main-purple-hover py-3 px-6 rounded-full cursor-pointer;
-  }
-
-  .button-primary-s{
-    @apply text-[13px] leading-5.75 text-center font-bold  text-white bg-main-purple hover:bg-main-purple-hover py-2 px-4 rounded-full cursor-pointer;
-  }
-
   .kanban-checkbox{
     @apply bg-white dark:bg-dark-grey appearance-none w-4 h-4 rounded cursor-pointer border border-lines-light dark:border-lines-dark checked:bg-main-purple checked:border-main-purple checked:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20d%3D%22M3%208l3%203%207-7%22%2F%3E%3C%2Fsvg%3E')] bg-center bg-no-repeat shrink-0;
   }
 
   .input-form{
     @apply w-full border border-lines-light dark:border-lines-dark bg-transparent rounded-md py-2 px-3 cursor-pointer hover:border-main-purple placeholder:text-black/25 dark:placeholder:text-white/25 dark:text-white focus:outline-none focus:ring-1 focus:ring-main-purple focus:border-transparent;
+  }
+
+  .button-primary-l{
+    @apply flex items-center justify-center gap-2 text-[15px] text-white font-bold leading-4.75  bg-main-purple hover:bg-main-purple-hover py-3 px-6 rounded-full cursor-pointer;
+  }
+
+  .button-primary-s{
+    @apply text-[13px] leading-5.75 text-center font-bold  text-white bg-main-purple hover:bg-main-purple-hover py-2 px-4 rounded-full cursor-pointer;
   }
 
   .button-secondary{
@@ -76,4 +76,5 @@
   .button-destructive{
     @apply w-full py-2 bg-red rounded-full text-white font-bold text-[13px] leading-5.75 text-center cursor-pointer hover:bg-red-hover;
   }
+  
 }
