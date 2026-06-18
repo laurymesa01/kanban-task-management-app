@@ -29,11 +29,18 @@ const TaskDetailPanel = () => {
   };
 
   return (
-    <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} className="w-[90vw] md:w-120 max-h-[90vh]">
+    <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} aria-labelledby="task-detail-title" className="w-[90vw] md:w-120 max-h-[90vh]">
       <div className="p-6 overflow-y-auto flex-1">
         <div className='flex items-center justify-between'>
-          <h2 className="text-black dark:text-white">{task.title}</h2>
-          <button ref={menuButtonRef} onClick={toggleMenu} className='cursor-pointer'>
+          <h2 id="task-detail-title" className="text-black dark:text-white">{task.title}</h2>
+          <button
+            ref={menuButtonRef}
+            onClick={toggleMenu}
+            className='cursor-pointer'
+            aria-label="Task options"
+            aria-expanded={!!menuRect}
+            aria-haspopup="menu"
+          >
             <EllipsisIcon />
           </button>
         </div>
@@ -43,8 +50,8 @@ const TaskDetailPanel = () => {
         )}
 
         {task.subtasks.length > 0 && (
-          <div className="mt-6">
-            <p className="body-m mb-4">Subtasks ({completedCount} of {task.subtasks.length})</p>
+          <div className="mt-6" role="group" aria-labelledby="subtasks-heading">
+            <p id="subtasks-heading" className="body-m mb-4">Subtasks ({completedCount} of {task.subtasks.length})</p>
             <div className="flex flex-col gap-2">
               {task.subtasks.map(subtask => (
                 <label key={subtask.title} className="flex items-center gap-3 p-3 rounded-md bg-light-grey dark:bg-very-dark-grey cursor-pointer hover:bg-main-purple/25">
@@ -65,11 +72,14 @@ const TaskDetailPanel = () => {
       </div>
 
       <div className="px-6 pb-6">
-        <p className="body-m text-medium-grey mb-2 dark:text-white">Current Status</p>
+        <p id="status-label" className="body-m text-medium-grey mb-2 dark:text-white">Current Status</p>
         <button
           ref={buttonRef}
           onClick={toggleDropdown}
           className="w-full flex items-center justify-between border border-lines-light dark:border-lines-dark rounded-md px-4 py-3 body-l text-black dark:text-white cursor-pointer active:border-main-purple focus:outline-none focus:ring-1 focus:ring-main-purple"
+          aria-haspopup="listbox"
+          aria-expanded={!!dropdownRect}
+          aria-labelledby="status-label"
         >
           {task.status}
           <ChevronIcon isOpen={!!dropdownRect} />
@@ -80,7 +90,7 @@ const TaskDetailPanel = () => {
         { label: 'Edit Task', onClick: () => dispatch({ type: 'TOGGLE_EDIT_TASK_PANEL' }) },
         { label: 'Delete Task', onClick: () => dispatch({ type: 'TOGGLE_DELETE_TASK_PANEL' }), destructive: true },
       ]} />}
-      {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} />}
+      {dropdownRect && <StatusDropdown pos={dropdownRect} columns={columns} currentStatus={task.status} onSelect={handleStatusChange} onClose={closeDropdown} aria-labelledby="status-label" />}
     </Modal>
   );
 };

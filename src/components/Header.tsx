@@ -17,12 +17,18 @@ const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSide
     <header className="bg-white h-(--header-height) pr-4 flex justify-between border-b border-lines-light dark:border-lines-dark dark:bg-dark-grey">
       <div className='flex items-center'>
         <div className='hidden md:flex items-center pl-4 shrink-0 w-70 h-full border-r border-lines-light dark:border-lines-dark'>
-          <img src={logoLight} alt="Kanban" className="hidden dark:block" />
-          <img src={logoDark} alt="Kanban" className="dark:hidden" />
+          <img src={logoLight} alt="" aria-hidden="true" className="hidden dark:block" />
+          <img src={logoDark} alt="" aria-hidden="true" className="dark:hidden" />
         </div>
         <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
-        <button onClick={onToggleSidebar} className="md:hidden ml-4 flex items-center gap-2 cursor-pointer">
-          <h1 className='self-center'>{name}</h1>
+        <button
+          onClick={onToggleSidebar}
+          className="md:hidden ml-4 flex items-center gap-2 cursor-pointer"
+          aria-label={`${name}, toggle board navigation`}
+          aria-expanded={isSidebarOpen}
+          aria-haspopup="dialog"
+        >
+          <h1 className='self-center' aria-hidden="true">{name}</h1>
           <ChevronIcon isOpen={isSidebarOpen} />
         </button>
         <h1 className='hidden md:block ml-4 self-center'>{name}</h1>
@@ -32,12 +38,20 @@ const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSide
         <button
           className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple px-3 md:px-6"
           disabled={hasNoColumns}
+          aria-label="Add new task"
           onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}
         >
           <PlusIcon />
-          <span className="hidden md:inline">Add new task</span>
+          <span className="hidden md:inline" aria-hidden="true">Add new task</span>
         </button>
-        <button ref={menuButtonRef} onClick={toggleMenu} className="cursor-pointer">
+        <button
+          ref={menuButtonRef}
+          onClick={toggleMenu}
+          className="cursor-pointer"
+          aria-label="Board options"
+          aria-expanded={!!menuRect}
+          aria-haspopup="menu"
+        >
           <EllipsisIcon />
         </button>
       </div>

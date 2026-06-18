@@ -55,37 +55,44 @@ const NewBoardPanel = () => {
   };
 
   return (
-    <Modal onClose={handleClose} className="w-[90vw] md:w-90 max-h-[90vh] p-6 overflow-y-auto">
-      <h2>{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
+    <Modal onClose={handleClose} aria-labelledby="new-board-heading" className="w-[90vw] md:w-90 max-h-[90vh] p-6 overflow-y-auto">
+      <h2 id="new-board-heading">{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-        <label className='body-m text-medium-grey dark:text-white'>Name</label>
+        <label htmlFor="board-name" className='body-m text-medium-grey dark:text-white'>Name</label>
         <div className='relative'>
           <input
+            id="board-name"
             type="text"
             className={`input-form body-l ${nameError ? 'border-red' : ''}`}
             placeholder='e.g. Web design'
             value={boardName}
+            aria-invalid={!!nameError}
+            aria-describedby={nameError ? 'board-name-error' : undefined}
             onChange={e => { setBoardName(e.target.value); if (e.target.value.trim()) setNameError(null); }}
           />
           {nameError && (
-            <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>{nameError}</span>
+            <span id="board-name-error" role="alert" className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>{nameError}</span>
           )}
         </div>
+
         <div>
-          <label className='body-m text-medium-grey dark:text-white'>Columns</label>
-          <div className='flex flex-col gap-3 mt-2 mb-4'>
+          <p id="columns-label" className='body-m text-medium-grey dark:text-white'>Columns</p>
+          <div role="list" aria-labelledby="columns-label" className='flex flex-col gap-3 mt-2 mb-4'>
             {columnList.items.map((col, index) => (
-              <div key={index} className='flex items-center gap-3'>
+              <div key={index} role="listitem" className='flex items-center gap-3'>
                 <div className='relative flex-1'>
                   <input
                     type="text"
                     className={`input-form body-l ${columnList.errors[index] || columnDupErrors[index] ? 'border-red' : ''}`}
                     placeholder='e.g. Todo'
                     value={col}
+                    aria-label={`Column ${index + 1}`}
+                    aria-invalid={columnList.errors[index] || !!columnDupErrors[index]}
+                    aria-describedby={(columnList.errors[index] || columnDupErrors[index]) ? `column-error-${index}` : undefined}
                     onChange={e => { columnList.update(index, e.target.value); clearColumnDupErrors(); }}
                   />
                   {(columnList.errors[index] || columnDupErrors[index]) && (
-                    <span className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>
+                    <span id={`column-error-${index}`} role="alert" className='absolute right-3 top-1/2 -translate-y-1/2 body-l text-red'>
                       {columnList.errors[index] ? "Can't be empty" : 'Already exists'}
                     </span>
                   )}
@@ -94,6 +101,7 @@ const NewBoardPanel = () => {
                   type="button"
                   onClick={() => { columnList.remove(index); clearColumnDupErrors(); }}
                   className='text-medium-grey hover:text-red cursor-pointer shrink-0'
+                  aria-label={`Remove column ${index + 1}${col ? `: ${col}` : ''}`}
                 >
                   <CrossIcon />
                 </button>
@@ -104,6 +112,7 @@ const NewBoardPanel = () => {
             + Add New Column
           </button>
         </div>
+
         <button className='button-primary-s'>
           {isEditMode ? 'Save Changes' : 'Create New Board'}
         </button>

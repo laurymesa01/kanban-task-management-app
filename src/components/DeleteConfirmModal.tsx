@@ -11,8 +11,8 @@ interface DeleteConfirmModalProps {
 const DeleteConfirmModal = ({ isOpen, title, description, onConfirm, onCancel }: DeleteConfirmModalProps) => {
   if (!isOpen) return null;
   return (
-    <Modal onClose={onCancel} className="p-6 w-[90vw] md:w-90">
-      <h2 className="text-red">{title}</h2>
+    <Modal onClose={onCancel} role="alertdialog" aria-labelledby="delete-confirm-title" className="p-6 w-[90vw] md:w-90">
+      <h2 id="delete-confirm-title" className="text-red">{title}</h2>
       <p className="body-l text-medium-grey mt-4">{description}</p>
       <div className="flex items-center gap-3 mt-6">
         <button className="button-destructive" onClick={onConfirm}>Delete</button>
