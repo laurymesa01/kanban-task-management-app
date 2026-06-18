@@ -8,17 +8,19 @@ const Modal = ({ onClose, children, className = '', 'aria-labelledby': labelledB
   role?: 'dialog' | 'alertdialog';
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
 
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
     ref.current?.focus();
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current(); };
     document.addEventListener('keydown', handleKey);
     return () => {
       document.removeEventListener('keydown', handleKey);
-      prev?.focus();
+      if (prev && document.contains(prev)) prev.focus();
     };
-  }, [onClose]);
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={onClose}>

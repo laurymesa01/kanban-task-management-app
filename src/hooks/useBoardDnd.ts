@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import {
   PointerSensor, useSensor, useSensors,
   type DragStartEvent, type DragEndEvent, type DragOverEvent,
@@ -13,8 +13,6 @@ export function useBoardDnd(activeBoard: Board, dispatch: Dispatch<KanbanAction>
   const [draggingTask, setDraggingTask] = useState<Task | null>(null);
   const localColumnsRef = useRef(localColumns);
 
-  useEffect(() => { localColumnsRef.current = localColumns; }, [localColumns]);
-
   const displayColumns = draggingTitle ? localColumns : activeBoard.columns;
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
@@ -22,7 +20,18 @@ export function useBoardDnd(activeBoard: Board, dispatch: Dispatch<KanbanAction>
   const findCurrentColumn = (taskTitle: string) =>
     localColumnsRef.current.find(col => col.tasks.some(t => t.title === taskTitle));
 
+  // Updates state and ref atomically inside the functional updater so
+  // localColumnsRef.current is never stale when handleDragEnd reads it.
+  const setColumns = (updater: (prev: Column[]) => Column[]) => {
+    setLocalColumns(prev => {
+      const next = updater(prev);
+      localColumnsRef.current = next;
+      return next;
+    });
+  };
+
   const handleDragStart = ({ active }: DragStartEvent) => {
+    localColumnsRef.current = activeBoard.columns;
     setLocalColumns(activeBoard.columns);
     setDraggingTitle(active.id as string);
     setDraggingTask(active.data.current?.task ?? null);
@@ -43,7 +52,7 @@ export function useBoardDnd(activeBoard: Board, dispatch: Dispatch<KanbanAction>
 
     if (currentCol.name === overColName) {
       if (!isOverColumn) {
-        setLocalColumns(prev => prev.map(col => {
+        setColumns(prev => prev.map(col => {
           if (col.name !== currentCol.name) return col;
           const oldIdx = col.tasks.findIndex(t => t.title === activeTitle);
           const newIdx = col.tasks.findIndex(t => t.title === overId);
@@ -52,7 +61,7 @@ export function useBoardDnd(activeBoard: Board, dispatch: Dispatch<KanbanAction>
         }));
       }
     } else {
-      setLocalColumns(prev => {
+      setColumns(prev => {
         const task = prev.find(c => c.name === currentCol.name)?.tasks.find(t => t.title === activeTitle);
         if (!task) return prev;
         const updatedTask = { ...task, status: overColName as Status };

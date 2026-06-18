@@ -7,7 +7,14 @@ function loadState(): KanbanState {
   try {
     const saved = localStorage.getItem('kanbanState');
     if (saved) {
-      const { boards, activeBoardIndex } = JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      const boards = Array.isArray(parsed.boards) ? parsed.boards : initialState.boards;
+      const activeBoardIndex =
+        typeof parsed.activeBoardIndex === 'number' &&
+        parsed.activeBoardIndex >= 0 &&
+        parsed.activeBoardIndex < boards.length
+          ? parsed.activeBoardIndex
+          : 0;
       return { ...initialState, boards, activeBoardIndex };
     }
   } catch {
