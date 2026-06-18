@@ -28,10 +28,10 @@ const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSide
           aria-expanded={isSidebarOpen}
           aria-haspopup="dialog"
         >
-          <h1 className='self-center' aria-hidden="true">{name}</h1>
+          <span className="heading-xl self-center" aria-hidden="true">{name}</span>
           <ChevronIcon isOpen={isSidebarOpen} />
         </button>
-        <h1 className='hidden md:block ml-4 self-center'>{name}</h1>
+        <h1 className='heading-xl hidden md:block ml-4 self-center'>{name}</h1>
       </div>
 
       <div className="flex items-center gap-4">

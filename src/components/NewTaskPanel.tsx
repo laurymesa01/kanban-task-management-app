@@ -65,7 +65,7 @@ const NewTaskPanel = () => {
 
   return (
     <Modal onClose={handleClose} aria-labelledby="new-task-heading" className="w-[90vw] md:w-120 max-h-[80vh] p-6 overflow-y-auto">
-      <h2 id="new-task-heading">{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
+      <h2 id="new-task-heading" className='heading-l'>{isEditMode ? 'Edit Task' : 'Add New Task'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label htmlFor="task-title" className='body-m text-medium-grey dark:text-white'>Title</label>
         <div className='relative'>

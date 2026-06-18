@@ -29,11 +29,11 @@
     font-family: var(--font-plus-jakarta-sans);
   }
 
-  h1{
+  .heading-xl{
     @apply font-bold text-lg md:text-2xl text-black dark:text-white leading-7.5;
   }
 
-  h2{
+  .heading-l{
     @apply font-bold text-lg dark:text-white leading-5.75;
   }
 

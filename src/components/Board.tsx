@@ -25,7 +25,7 @@ const SortableTaskCard = ({ task, columnName, draggingTitle }: { task: Task; col
       onClick={() => draggingTitle !== task.title && dispatch({ type: 'SELECT_TASK', payload: { ...task, status: columnName as Status } })}
       className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-grab active:cursor-grabbing group touch-none"
     >
-      <h3 className="heading-m text-black dark:text-white group-hover:text-main-purple">{task.title}</h3>
+      <span className="heading-m text-black dark:text-white group-hover:text-main-purple block">{task.title}</span>
       <p className="body-m text-medium-grey mt-2">
         {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
       </p>
@@ -40,7 +40,7 @@ const DroppableColumn = ({ name, tasks, colorIndex, draggingTitle }: { name: str
     <div className="flex flex-col gap-4 w-70 shrink-0">
       <div className="flex items-center gap-3">
         <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLUMN_COLORS[colorIndex % COLUMN_COLORS.length] }} />
-        <p className="heading-s">{name.toUpperCase()} ({tasks.length})</p>
+        <h2 className="heading-s">{name.toUpperCase()} ({tasks.length})</h2>
       </div>
       <SortableContext items={tasks.map(t => t.title)} strategy={verticalListSortingStrategy}>
         <div
@@ -58,7 +58,7 @@ const DroppableColumn = ({ name, tasks, colorIndex, draggingTitle }: { name: str
 
 const DragOverlayCard = ({ task }: { task: Task }) => (
   <div className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-xl w-70 rotate-2 opacity-95 cursor-grabbing">
-    <h3 className="heading-m text-black dark:text-white">{task.title}</h3>
+    <span className="heading-m text-black dark:text-white block">{task.title}</span>
     <p className="body-m text-medium-grey mt-2">
       {task.subtasks.filter(s => s.isCompleted).length} of {task.subtasks.length} subtasks
     </p>
@@ -72,17 +72,17 @@ const Board = () => {
 
   if (activeBoard.columns.length === 0) {
     return (
-      <section role="main" className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
+      <main className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
         <div className="flex h-full items-center mx-4 justify-center flex-col gap-6">
-          <h2 className="text-medium-grey text-center">This board is empty. Create a new column to get started.</h2>
+          <h2 className="heading-l text-medium-grey text-center">This board is empty. Create a new column to get started.</h2>
           <button className="button-primary-l" onClick={() => dispatch({ type: 'TOGGLE_EDIT_BOARD_PANEL' })}>+ Add New Column</button>
         </div>
-      </section>
+      </main>
     );
   }
 
   return (
-    <section role="main" className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
+    <main className="h-full w-full bg-light-grey dark:bg-very-dark-grey overflow-auto">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
@@ -115,7 +115,7 @@ const Board = () => {
           {draggingTask && <DragOverlayCard task={draggingTask} />}
         </DragOverlay>
       </DndContext>
-    </section>
+    </main>
   );
 };
 

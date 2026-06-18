@@ -56,7 +56,7 @@ const NewBoardPanel = () => {
 
   return (
     <Modal onClose={handleClose} aria-labelledby="new-board-heading" className="w-[90vw] md:w-90 max-h-[90vh] p-6 overflow-y-auto">
-      <h2 id="new-board-heading">{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
+      <h2 id="new-board-heading" className='heading-l'>{isEditMode ? 'Edit Board' : 'Add New Board'}</h2>
       <form className='mt-6 flex flex-col gap-4' onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <label htmlFor="board-name" className='body-m text-medium-grey dark:text-white'>Name</label>
         <div className='relative'>

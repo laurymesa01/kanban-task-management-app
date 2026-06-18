@@ -32,7 +32,7 @@ const TaskDetailPanel = () => {
     <Modal onClose={() => dispatch({ type: 'SELECT_TASK', payload: null })} aria-labelledby="task-detail-title" className="w-[90vw] md:w-120 max-h-[90vh]">
       <div className="p-6 overflow-y-auto flex-1">
         <div className='flex items-center justify-between'>
-          <h2 id="task-detail-title" className="text-black dark:text-white">{task.title}</h2>
+          <h2 id="task-detail-title" className="heading-l text-black dark:text-white">{task.title}</h2>
           <button
             ref={menuButtonRef}
             onClick={toggleMenu}
