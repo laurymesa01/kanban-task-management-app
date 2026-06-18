@@ -14,46 +14,49 @@ const Header = ({ name, isSidebarOpen, onToggleSidebar }: { name: string; isSide
   const hasNoColumns = state.boards[state.activeBoardIndex].columns.length === 0;
 
   return (
-    <header className="bg-white h-(--header-height) pr-4 flex justify-between border-b border-lines-light dark:border-lines-dark dark:bg-dark-grey">
-      <div className='flex items-center'>
-        <div className='hidden md:flex items-center pl-4 shrink-0 w-70 h-full border-r border-lines-light dark:border-lines-dark'>
-          <img src={logoLight} alt="" aria-hidden="true" className="hidden dark:block" />
-          <img src={logoDark} alt="" aria-hidden="true" className="dark:hidden" />
-        </div>
-        <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
-        <button
-          onClick={onToggleSidebar}
-          className="md:hidden ml-4 flex items-center gap-2 cursor-pointer"
-          aria-label={`${name}, toggle board navigation`}
-          aria-expanded={isSidebarOpen}
-          aria-haspopup="dialog"
-        >
-          <span className="heading-xl self-center" aria-hidden="true">{name}</span>
-          <ChevronIcon isOpen={isSidebarOpen} />
-        </button>
-        <h1 className='heading-xl hidden md:block ml-4 self-center'>{name}</h1>
+    <header className="bg-white h-(--header-height) flex dark:bg-dark-grey">
+      <div className='hidden md:flex items-center pl-4 shrink-0 w-70 border-r border-lines-light dark:border-lines-dark'>
+        <img src={logoLight} alt="" aria-hidden="true" className="hidden dark:block" />
+        <img src={logoDark} alt="" aria-hidden="true" className="dark:hidden" />
       </div>
 
-      <div className="flex items-center gap-4">
-        <button
-          className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple px-3 md:px-6"
-          disabled={hasNoColumns}
-          aria-label="Add new task"
-          onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}
-        >
-          <PlusIcon />
-          <span className="hidden md:inline" aria-hidden="true">Add new task</span>
-        </button>
-        <button
-          ref={menuButtonRef}
-          onClick={toggleMenu}
-          className="cursor-pointer"
-          aria-label="Board options"
-          aria-expanded={!!menuRect}
-          aria-haspopup="menu"
-        >
-          <EllipsisIcon />
-        </button>
+      <div className='flex flex-1 items-center justify-between pr-4 border-b border-lines-light dark:border-lines-dark'>
+        <div className='flex items-center'>
+          <img src={logoMobile} alt="Kanban" className="md:hidden ml-4" />
+          <button
+            onClick={onToggleSidebar}
+            className="md:hidden ml-4 flex items-center gap-2 cursor-pointer"
+            aria-label={`${name}, toggle board navigation`}
+            aria-expanded={isSidebarOpen}
+            aria-haspopup="dialog"
+          >
+            <span className="heading-xl self-center" aria-hidden="true">{name}</span>
+            <ChevronIcon isOpen={isSidebarOpen} />
+          </button>
+          <h1 className='heading-xl hidden md:block ml-4 self-center'>{name}</h1>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button
+            className="button-primary-l disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-main-purple px-3 md:px-6"
+            disabled={hasNoColumns}
+            aria-label="Add new task"
+            onClick={() => dispatch({ type: 'TOGGLE_NEW_TASK_PANEL' })}
+          >
+            <PlusIcon />
+            <span className="hidden md:inline" aria-hidden="true">Add new task</span>
+          </button>
+          <button
+            ref={menuButtonRef}
+            onClick={toggleMenu}
+            className="cursor-pointer"
+            aria-label="Board options"
+            aria-expanded={!!menuRect}
+            aria-haspopup="menu"
+          >
+            <EllipsisIcon />
+          </button>
+        </div>
       </div>
 
       {menuRect && <EllipsisMenu pos={menuRect} direction="below" onClose={closeMenu} items={[
