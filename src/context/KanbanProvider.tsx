@@ -3,6 +3,22 @@ import { KanbanContext, initialState } from "./KanbanContext";
 import { kanbanReducer } from "./kanbanReducer";
 import type { KanbanState } from "../types/kanban";
 
+function ensureTaskIds(state: KanbanState): KanbanState {
+  return {
+    ...state,
+    boards: state.boards.map(board => ({
+      ...board,
+      columns: board.columns.map(col => ({
+        ...col,
+        tasks: col.tasks.map(task => ({
+          ...task,
+          id: (task as { id?: string }).id ?? crypto.randomUUID(),
+        })),
+      })),
+    })),
+  };
+}
+
 function loadState(): KanbanState {
   try {
     const saved = localStorage.getItem('kanbanState');
@@ -15,7 +31,7 @@ function loadState(): KanbanState {
         parsed.activeBoardIndex < boards.length
           ? parsed.activeBoardIndex
           : 0;
-      return { ...initialState, boards, activeBoardIndex };
+      return ensureTaskIds({ ...initialState, boards, activeBoardIndex });
     }
   } catch {
     // ignore corrupted data

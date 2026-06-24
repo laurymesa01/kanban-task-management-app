@@ -20,12 +20,12 @@ const TaskDetailPanel = () => {
   const completedCount = task.subtasks.filter(s => s.isCompleted).length;
 
   const handleStatusChange = (newStatus: string) => {
-    dispatch({ type: 'MOVE_TASK', payload: { taskTitle: task.title, fromColumn: task.status, toColumn: newStatus } });
+    dispatch({ type: 'MOVE_TASK', payload: { taskId: task.id, fromColumn: task.status, toColumn: newStatus } });
     closeDropdown();
   };
 
   const handleToggleSubtask = (subtaskTitle: string) => {
-    dispatch({ type: 'TOGGLE_SUBTASK', payload: { taskTitle: task.title, subtaskTitle } });
+    dispatch({ type: 'TOGGLE_SUBTASK', payload: { taskId: task.id, subtaskTitle } });
   };
 
   return (

@@ -77,6 +77,9 @@ const NewBoardPanel = () => {
 
         <div>
           <p id="columns-label" className='body-m text-medium-grey dark:text-white'>Columns</p>
+          {isEditMode && (
+            <p className='body-m text-medium-grey'>Renaming a column will remove its existing tasks.</p>
+          )}
           <div role="list" aria-labelledby="columns-label" className='flex flex-col gap-3 mt-2 mb-4'>
             {columnList.items.map((col, index) => (
               <div key={index} role="listitem" className='flex items-center gap-3'>

@@ -21,16 +21,11 @@ export interface Column {
 }
 
 export interface Task {
+    id:          string;
     title:       string;
     description: string;
-    status:      Status;
+    status:      string;
     subtasks:    Subtask[];
-}
-
-export enum Status {
-    Doing = "Doing",
-    Done = "Done",
-    Todo = "Todo",
 }
 
 export interface Subtask {
@@ -49,10 +44,10 @@ export type KanbanAction =
   | { type: 'EDIT_BOARD'; payload: Board }
   | { type: 'DELETE_BOARD' }
   | { type: 'TOGGLE_EDIT_BOARD_PANEL' }
-  | { type: 'ADD_TASK'; payload: { columnName: string; task: Task } }
+  | { type: 'ADD_TASK'; payload: { columnName: string; task: Omit<Task, 'id'> } }
   | { type: 'TOGGLE_EDIT_TASK_PANEL' }
-  | { type: 'EDIT_TASK'; payload: { originalTitle: string; originalStatus: string; task: Task } }
+  | { type: 'EDIT_TASK'; payload: { originalId: string; originalStatus: string; task: Omit<Task, 'id'> } }
   | { type: 'DELETE_TASK' }
-  | { type: 'MOVE_TASK'; payload: { taskTitle: string; fromColumn: string; toColumn: string } }
-  | { type: 'TOGGLE_SUBTASK'; payload: { taskTitle: string; subtaskTitle: string } }
+  | { type: 'MOVE_TASK'; payload: { taskId: string; fromColumn: string; toColumn: string } }
+  | { type: 'TOGGLE_SUBTASK'; payload: { taskId: string; subtaskTitle: string } }
   | { type: 'UPDATE_ACTIVE_BOARD_COLUMNS'; payload: Column[] }

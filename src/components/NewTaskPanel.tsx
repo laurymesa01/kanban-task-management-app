@@ -5,7 +5,6 @@ import { useEditableList } from '../hooks/useEditableList';
 import StatusDropdown from './StatusDropdown';
 import Modal from './Modal';
 import { CrossIcon, ChevronIcon } from './icons';
-import type { Status } from '../types/kanban';
 
 const NewTaskPanel = () => {
   const { state, dispatch } = useKanban();
@@ -53,11 +52,11 @@ const NewTaskPanel = () => {
     const newTask = {
       title: trimmedTitle,
       description: description.trim(),
-      status: selectedStatus as Status,
+      status: selectedStatus,
       subtasks: subtaskList.items.map(s => ({ title: s.trim(), isCompleted: false })),
     };
     if (isEditMode && task) {
-      dispatch({ type: 'EDIT_TASK', payload: { originalTitle: task.title, originalStatus: task.status, task: newTask } });
+      dispatch({ type: 'EDIT_TASK', payload: { originalId: task.id, originalStatus: task.status, task: newTask } });
     } else {
       dispatch({ type: 'ADD_TASK', payload: { columnName: selectedStatus, task: newTask } });
     }

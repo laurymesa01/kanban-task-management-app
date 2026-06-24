@@ -5,24 +5,29 @@ import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-
 import { CSS } from '@dnd-kit/utilities';
 import { useKanban } from '../context/KanbanContext';
 import { useBoardDnd } from '../hooks/useBoardDnd';
-import type { Status, Task } from '../types/kanban';
+import type { KanbanAction, Task } from '../types/kanban';
+import type { Dispatch } from 'react';
 
 const COLUMN_COLORS = ['#49C4E5', '#8471F2', '#67E2AE', '#F4B550', '#E96E6E'];
 
-const SortableTaskCard = ({ task, columnName, draggingTitle }: { task: Task; columnName: string; draggingTitle: string | null }) => {
-  const { dispatch } = useKanban();
+const SortableTaskCard = ({ task, columnName, draggingId, onSelect }: {
+  task: Task;
+  columnName: string;
+  draggingId: string | null;
+  onSelect: () => void;
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: task.title,
+    id: task.id,
     data: { task, columnName },
   });
 
   return (
     <div
       ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition, opacity: draggingTitle === task.title ? 0.3 : 1 }}
+      style={{ transform: CSS.Transform.toString(transform), transition, opacity: draggingId === task.id ? 0.3 : 1 }}
       {...attributes}
       {...listeners}
-      onClick={() => draggingTitle !== task.title && dispatch({ type: 'SELECT_TASK', payload: { ...task, status: columnName as Status } })}
+      onClick={() => draggingId !== task.id && onSelect()}
       className="bg-white dark:bg-dark-grey rounded-lg p-4 shadow-sm cursor-grab active:cursor-grabbing group touch-none"
     >
       <span className="heading-m text-black dark:text-white group-hover:text-main-purple block">{task.title}</span>
@@ -33,7 +38,13 @@ const SortableTaskCard = ({ task, columnName, draggingTitle }: { task: Task; col
   );
 };
 
-const DroppableColumn = ({ name, tasks, colorIndex, draggingTitle }: { name: string; tasks: Task[]; colorIndex: number; draggingTitle: string | null }) => {
+const DroppableColumn = ({ name, tasks, colorIndex, draggingId, dispatch }: {
+  name: string;
+  tasks: Task[];
+  colorIndex: number;
+  draggingId: string | null;
+  dispatch: Dispatch<KanbanAction>;
+}) => {
   const { setNodeRef, isOver } = useDroppable({ id: `col:${name}` });
 
   return (
@@ -42,13 +53,19 @@ const DroppableColumn = ({ name, tasks, colorIndex, draggingTitle }: { name: str
         <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLUMN_COLORS[colorIndex % COLUMN_COLORS.length] }} />
         <h2 className="heading-s">{name.toUpperCase()} ({tasks.length})</h2>
       </div>
-      <SortableContext items={tasks.map(t => t.title)} strategy={verticalListSortingStrategy}>
+      <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
         <div
           ref={setNodeRef}
           className={`flex flex-col gap-4 flex-1 min-h-20 rounded-md transition-colors ${isOver ? 'bg-main-purple/10' : ''}`}
         >
           {tasks.map(task => (
-            <SortableTaskCard key={task.title} task={task} columnName={name} draggingTitle={draggingTitle} />
+            <SortableTaskCard
+              key={task.id}
+              task={task}
+              columnName={name}
+              draggingId={draggingId}
+              onSelect={() => dispatch({ type: 'SELECT_TASK', payload: { ...task, status: name } })}
+            />
           ))}
         </div>
       </SortableContext>
@@ -68,7 +85,7 @@ const DragOverlayCard = ({ task }: { task: Task }) => (
 const Board = () => {
   const { state, dispatch } = useKanban();
   const activeBoard = state.boards[state.activeBoardIndex];
-  const { displayColumns, draggingTitle, draggingTask, sensors, handleDragStart, handleDragOver, handleDragEnd, handleDragCancel } = useBoardDnd(activeBoard, dispatch);
+  const { displayColumns, draggingId, draggingTask, sensors, handleDragStart, handleDragOver, handleDragEnd, handleDragCancel } = useBoardDnd(activeBoard, dispatch);
 
   if (activeBoard.columns.length === 0) {
     return (
@@ -98,7 +115,8 @@ const Board = () => {
               name={column.name}
               tasks={column.tasks}
               colorIndex={index}
-              draggingTitle={draggingTitle}
+              draggingId={draggingId}
+              dispatch={dispatch}
             />
           ))}
           <div className="flex flex-col gap-4 shrink-0">

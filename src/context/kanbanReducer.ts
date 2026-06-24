@@ -1,9 +1,10 @@
 import type { KanbanAction, KanbanState, Task } from "../types/kanban";
-import { Status } from "../types/kanban";
 
 export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanState {
+    const activeBoard = state.boards[state.activeBoardIndex];
+
     switch (action.type) {
-        
+
         case 'SELECT_BOARD':
             return { ...state, activeBoardIndex: action.payload, selectedTask: null, isNewTaskPanelOpen: false, isEditTaskPanelOpen: false, isDeleteTaskPanelOpen: false }
 
@@ -45,9 +46,8 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
             return { ...state, isEditBoardPanelOpen: !state.isEditBoardPanelOpen, selectedTask: !state.isEditBoardPanelOpen ? null : state.selectedTask }
 
         case 'EDIT_BOARD': {
-            const currentBoard = state.boards[state.activeBoardIndex];
             const updatedColumns = action.payload.columns.map(newCol => {
-                const existing = currentBoard.columns.find(c => c.name === newCol.name);
+                const existing = activeBoard.columns.find(c => c.name === newCol.name);
                 return existing ?? newCol;
             });
             const updatedBoards = state.boards.map((board, i) =>
@@ -59,130 +59,129 @@ export function kanbanReducer(state: KanbanState, action: KanbanAction): KanbanS
         }
 
         case 'MOVE_TASK': {
-            const { taskTitle, fromColumn, toColumn } = action.payload
-            const activeBoard = state.boards[state.activeBoardIndex]
+            const { taskId, fromColumn, toColumn } = action.payload;
 
             const taskToMove = activeBoard.columns
                 .find(col => col.name === fromColumn)
-                ?.tasks.find(t => t.title === taskTitle)
+                ?.tasks.find(t => t.id === taskId);
 
-            if (!taskToMove) return state
+            if (!taskToMove) return state;
 
-            const updatedTask = { ...taskToMove, status: toColumn as Status }
+            const updatedTask = { ...taskToMove, status: toColumn };
 
             const updatedColumns = activeBoard.columns.map(col => {
-                if (col.name === fromColumn) return { ...col, tasks: col.tasks.filter(t => t.title !== taskTitle) }
-                if (col.name === toColumn) return { ...col, tasks: [...col.tasks, updatedTask] }
-                return col
-            })
+                if (col.name === fromColumn) return { ...col, tasks: col.tasks.filter(t => t.id !== taskId) };
+                if (col.name === toColumn) return { ...col, tasks: [...col.tasks, updatedTask] };
+                return col;
+            });
 
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
-            )
+            );
 
-            return { ...state, boards: updatedBoards, selectedTask: updatedTask }
+            return { ...state, boards: updatedBoards, selectedTask: updatedTask };
         }
 
         case 'ADD_TASK': {
-            const { columnName, task } = action.payload
-            const updatedColumns = state.boards[state.activeBoardIndex].columns.map(col =>
-                col.name === columnName ? { ...col, tasks: [...col.tasks, task] } : col
-            )
+            const { columnName, task } = action.payload;
+            const newTask: Task = { ...task, id: crypto.randomUUID() };
+            const updatedColumns = activeBoard.columns.map(col =>
+                col.name === columnName ? { ...col, tasks: [...col.tasks, newTask] } : col
+            );
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
-            )
-            return { ...state, boards: updatedBoards, isNewTaskPanelOpen: false }
+            );
+            return { ...state, boards: updatedBoards, isNewTaskPanelOpen: false };
         }
 
         case 'TOGGLE_EDIT_TASK_PANEL':
             return { ...state, isEditTaskPanelOpen: !state.isEditTaskPanelOpen, selectedTask: state.isEditTaskPanelOpen ? null : state.selectedTask }
 
         case 'EDIT_TASK': {
-            const { originalTitle, originalStatus, task } = action.payload
-            const activeBoard = state.boards[state.activeBoardIndex]
+            const { originalId, originalStatus, task } = action.payload;
 
             const originalTask = activeBoard.columns
                 .find(col => col.name === originalStatus)
-                ?.tasks.find(t => t.title === originalTitle)
+                ?.tasks.find(t => t.id === originalId);
 
             const updatedTask: Task = {
                 ...task,
+                id: originalId,
                 subtasks: task.subtasks.map(s => {
-                    const existing = originalTask?.subtasks.find(os => os.title === s.title)
-                    return existing ? { ...s, isCompleted: existing.isCompleted } : s
+                    const existing = originalTask?.subtasks.find(os => os.title === s.title);
+                    return existing ? { ...s, isCompleted: existing.isCompleted } : s;
                 }),
-            }
+            };
 
             const updatedColumns = activeBoard.columns.map(col => {
                 if (col.name === originalStatus && col.name === updatedTask.status) {
-                    return { ...col, tasks: col.tasks.map(t => t.title === originalTitle ? updatedTask : t) }
+                    return { ...col, tasks: col.tasks.map(t => t.id === originalId ? updatedTask : t) };
                 }
                 if (col.name === originalStatus) {
-                    return { ...col, tasks: col.tasks.filter(t => t.title !== originalTitle) }
+                    return { ...col, tasks: col.tasks.filter(t => t.id !== originalId) };
                 }
                 if (col.name === updatedTask.status) {
-                    return { ...col, tasks: [...col.tasks, updatedTask] }
+                    return { ...col, tasks: [...col.tasks, updatedTask] };
                 }
-                return col
-            })
+                return col;
+            });
 
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
-            )
+            );
 
-            return { ...state, boards: updatedBoards, selectedTask: updatedTask, isEditTaskPanelOpen: false }
+            return { ...state, boards: updatedBoards, selectedTask: updatedTask, isEditTaskPanelOpen: false };
         }
 
         case 'DELETE_TASK': {
-            const task = state.selectedTask
-            if (!task) return state
+            const task = state.selectedTask;
+            if (!task) return state;
 
-            const updatedColumns = state.boards[state.activeBoardIndex].columns.map(col =>
-                col.name === task.status ? { ...col, tasks: col.tasks.filter(t => t.title !== task.title) } : col
-            )
+            const updatedColumns = activeBoard.columns.map(col =>
+                col.name === task.status ? { ...col, tasks: col.tasks.filter(t => t.id !== task.id) } : col
+            );
 
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
-            )
+            );
 
-            return { ...state, boards: updatedBoards, selectedTask: null, isDeleteTaskPanelOpen: false }
+            return { ...state, boards: updatedBoards, selectedTask: null, isDeleteTaskPanelOpen: false };
         }
 
         case 'TOGGLE_SUBTASK': {
-            const { taskTitle, subtaskTitle } = action.payload
-            const activeBoard = state.boards[state.activeBoardIndex]
+            const { taskId, subtaskTitle } = action.payload;
 
-            let updatedTask: Task | null = null
+            let updatedTask: Task | null = null;
 
             const updatedColumns = activeBoard.columns.map(col => ({
                 ...col,
                 tasks: col.tasks.map(t => {
-                    if (t.title !== taskTitle) return t
+                    if (t.id !== taskId) return t;
                     updatedTask = {
                         ...t,
                         subtasks: t.subtasks.map(s =>
                             s.title === subtaskTitle ? { ...s, isCompleted: !s.isCompleted } : s
                         ),
-                    }
-                    return updatedTask
+                    };
+                    return updatedTask;
                 }),
-            }))
+            }));
 
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: updatedColumns } : board
-            )
+            );
 
-            return { ...state, boards: updatedBoards, selectedTask: updatedTask ?? state.selectedTask }
+            return { ...state, boards: updatedBoards, selectedTask: updatedTask ?? state.selectedTask };
         }
 
         case 'UPDATE_ACTIVE_BOARD_COLUMNS': {
             const updatedBoards = state.boards.map((board, i) =>
                 i === state.activeBoardIndex ? { ...board, columns: action.payload } : board
-            )
-            return { ...state, boards: updatedBoards }
+            );
+            return { ...state, boards: updatedBoards };
         }
 
         default:
             return state;
     }
-}   
+}
