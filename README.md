@@ -1,24 +1,29 @@
-# Frontend Mentor - Kanban task management web app
+# Frontend Mentor - Kanban task management web app solution
 
 ![Design preview for the Kanban task management web app coding challenge](./preview.jpg)
 
-## Welcome! 👋
+This is a solution to the [Kanban task management web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-HlbB). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
 
-Thanks for purchasing this premium Frontend Mentor coding challenge.
+## Table of contents
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects. These premium challenges are perfect portfolio pieces, so please feel free to use what you create in your portfolio to show others.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [AI Collaboration](#ai-collaboration)
+- [Author](#author)
 
-**To do this challenge, you need a very strong understanding of HTML, CSS, and JavaScript.**
+## Overview
 
-## The challenge
+Kanban board management featuring multiple boards, custom columns, and tasks with subtasks. Users can visually organize their work, drag and drop tasks between columns, and toggle between light and dark themes.
 
-Your challenge is to build out this task management app and get it looking as close to the design as possible.
+### The challenge
 
-You can use any tools you like to help you complete the challenge. So, if you've got something you'd like to practice, feel free to give it a go.
-
-We provide the data in a local `data.json` file, so use that to populate the content on the first load. If you want to take it up a notch, feel free to build this as a full-stack application!
-
-Your users should be able to:
+Users should be able to:
 
 - View the optimal layout for the app depending on their device's screen size
 - See hover states for all interactive elements on the page
@@ -31,98 +36,112 @@ Your users should be able to:
 - **Bonus**: Keep track of any changes, even after refreshing the browser (`localStorage` could be used for this if you're not building out a full-stack app)
 - **Bonus**: Build this project as a full-stack application
 
-### Want some support on the challenge?
+### Screenshot
 
-[Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+#### Desktop — Main
 
-### Expected Behaviour
+| Light mode | Dark mode |
+|---|---|
+| ![Main light mode](./public/Board-light.png) | ![Main dark mode](./public/Board-dark.png) |
 
-- Boards
-  - Clicking different boards in the sidebar will change to the selected board.
-  - Clicking "Create New Board" in the sidebar opens the "Add New Board" modal.
-  - Clicking in the dropdown menu "Edit Board" opens up the "Edit Board" modal where details can be changed.
-  - Columns are added and removed for the Add/Edit Board modals.
-  - Deleting a board deletes all columns and tasks and requires confirmation.
-- Columns
-  - A board needs at least one column before tasks can be added. If no columns exist, the "Add New Task" button in the header is disabled.
-  - Clicking "Add New Column" opens the "Edit Board" modal where columns are added.
-- Tasks
-  - Adding a new task adds it to the bottom of the relevant column.
-  - Updating a task's status will move the task to the relevant column. If you're taking on the drag-and-drop bonus, dragging a task to a different column will also update the status.
+| Sidebar hidden |
+|---|
+| ![Hidden sidebar](./public/hide-sidebar.png) |
 
-## Where to find everything
+#### Desktop — Tasks & Boards
 
-Your task is to build out the project to the design file provided. You can download the Figma design file on the platform. You can download the design file on the platform. **Please be sure not to share them with anyone else.** The design download comes with a `README.md` file as well to help you get set up.
+| Task detail | Task status dropdown |
+|---|---|
+| ![Task detail](./public/task-detail.png) | ![Task status](./public/task-status.png) |
 
-All the required assets for this project are in the `/assets` folder. The assets are already exported for the correct screen size and optimized. Some images are reusable at multiple screen sizes. So if you don't see an image in a specific folder, it will typically be in another folder for that page.
+| Add new task | Edit task | Delete task |
+|---|---|---|
+| ![Add new task](./public/add-new-task.png) | ![Edit task](./public/edit-task.png) | ![Delete task](./public/delete-task.png) |
 
-We've decided to use a nested data structure for the `data.json` file, but feel free to alter and flatten the data however you like if you want to change it.
+| Board options menu | Add new board | Edit board | Delete board |
+|---|---|---|---|
+| ![Board ellipsis menu](./public/board-ellipsis-menu.png) | ![Add new board](./public/Add-new-board.png) | ![Edit board](./public/edit-board.png) | ![Delete board](./public/delete-board.png) |
 
-The design system in the design file will give you more information about the various colors, fonts, and styles used in this project. Our fonts always come from [Google Fonts](https://fonts.google.com/).
+#### Form validation
 
-## Using AI coding assistants
+| Task form | Board form |
+|---|---|
+| ![Form validation task](./public/form-validation-task.png) | ![Form validation board](./public/form-validation-board.png) |
 
-We've included two files to help you if you're using AI coding assistants (like Claude, GitHub Copilot, Cursor, etc.) while working on this challenge:
+#### Tablet
 
-- `AGENTS.md` - Contains detailed instructions for AI assistants on how to help you with this challenge. It's tailored to this challenge's difficulty level, so the AI will provide guidance appropriate to your learning stage—offering more support for beginner challenges and encouraging more independence on advanced ones.
-- `CLAUDE.md` - A pointer file that directs Claude-based tools to the AGENTS.md instructions.
+| Board | Task detail | Task status |
+|---|---|---|
+| ![Tablet board](./public/tablet-main.png) | ![Tablet task detail](./public/tablet-task-detai.png) | ![Tablet task status](./public/tablet-task-status.png) |
 
-**How to use them:** You don't need to do anything! These files are automatically detected by most AI coding tools. The AI will read them and adjust its behavior to be a better learning partner—guiding you toward solutions rather than just giving you the answers.
+| New task | New board |
+|---|---|
+| ![Tablet new task](./public/tablet-new-task.png) | ![Tablet new board](./public/tablet-new-board.png) |
 
-**Note:** These files are designed to help you *learn*, not to do the work for you. The AI is instructed to ask questions, give hints, and explain concepts rather than writing complete solutions.
+#### Mobile
 
-## Building your project
+| Board | Navigation menu | Task detail |
+|---|---|---|
+| ![Mobile board](./public/mobile-board.png) | ![Mobile menu](./public/mobile-menu.png) | ![Mobile task detail](./public/mobile-task-detail.png) |
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+| Edit task | Task status |
+|---|---|
+| ![Mobile edit task](./public/mobile-edit-task.png) | ![Mobile task status](./public/mobile-task-status.png) |
 
-1. Separate the `starter-code` from the rest of this project and rename it to something meaningful for you. Initialize the codebase as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/). **⚠️ IMPORTANT ⚠️: There are already a couple of `.gitignore` files in this project. Please do not remove them or change the content of the files. If you create a brand new project, please use the `.gitignore` files provided in your new codebase. This is to avoid the accidental upload of the design files to GitHub. With these premium challenges, please be sure not to share the design files in your GitHub repo. Thanks!**
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge, as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
 
-## Deploying your project
+### Links
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+## My process
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://www.frontendmentor.io/guides/hosting-your-solution).
+### Built with
 
-## Create a custom `README.md`
+- Mobile-first workflow
+- [React](https://react.dev/) - JS library
+- [Vite](https://vite.dev/) 
+- [Tailwind CSS](https://tailwindcss.com/) 
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+### What I learned
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+Working on this project helped me deepen my understanding of several concepts:
 
-## Submitting your solution
+- **Drag and drop with live preview** — keeping a local copy of columns during a drag and switching to the global state only after the drag ends, using derived state instead of syncing effects.
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://www.frontendmentor.io/guides/how-to-submit-solutions) for tips on how to do this.
+- **React useEffect dependencies** — I ran into a bug where an inline `onClose` function was recreated on every render, causing the Modal's cleanup to run on each keystroke and break focus. The fix was storing the callback in a ref and running the effect only on mount.
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+- **Accessible components** — implementing `role="dialog"`, `aria-modal`, `aria-labelledby`, focus trapping, and ESC key handling properly. Also learned that ESC handlers in nested overlays (menu inside modal) need the capture phase to avoid triggering both at once.
 
-**⚠️ IMPORTANT ⚠️: With these premium challenges, please be sure not to upload the design files to GitHub when you're submitting to the platform and sharing it around. If you've created a brand new project, the easiest way to do that is to copy across the `.gitignore` provided in this starter project.**
+- **Unique identifiers** — switching from `task.title` to `task.id` (UUID) as the identifier for DnD and reducer lookups, so identifiers are decoupled from user-editable data.
 
-## Sharing your solution
+- **Tailwind CSS v4** — using `@layer components` for custom classes and `@theme` for design tokens instead of the old `tailwind.config.js` approach.
 
-There are multiple places you can share your solution:
+### Continued development
 
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community). 
-2. Share on [X (formerly Twitter)](https://x.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in your post. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on [LinkedIn](https://www.linkedin.com/company/frontend-mentor/).
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+- **Full-stack version** — move the data layer to a real backend (Node + PostgreSQL or a BaaS like Supabase) so boards are synced across devices and users can have accounts.
+- **Animations** — add view transitions when tasks move between columns and when modals open/close.
+- **Keyboard drag and drop** — dnd-kit has built-in keyboard support but it needs custom announcements and focus management to be fully accessible.
+- **Optimistic updates** — if a backend is added, update the UI immediately and roll back on error instead of waiting for the server response.
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
+### AI Collaboration
 
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
+I used **Claude Code** (Anthropic) as a collaborative partner throughout the project.
 
-## Got feedback for us?
+**How I used it:**
+- Debugging logic bugs — stale closures, incorrect useEffect dependencies, ref timing issues in the drag & drop hook
+- Code reviews — the AI audited the full branch and identified architectural issues like using `task.title` as a DnD identifier instead of a stable UUID
+- Accessibility audit — systematic review of ARIA roles, focus management, keyboard navigation, and semantic HTML across all components
+- Refactoring — extracting custom hooks (`useBoardDnd`, `useEditableList`), moving from `@layer base` to `@layer components`, simplifying components
+- HTML and CSS fixes — catching invalid patterns like headings inside buttons, `cursor-pointer` on text inputs, and missing heading hierarchy
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+**What worked well:** Using AI as a peer reviewer rather than a code generator. I described the problem or showed the code, we discussed the trade-offs, and I made the final decisions. This kept me in control of the architecture while benefiting from a second pair of eyes.
 
-**Have fun building!** 🚀
+**What didn't work as well:** Very large refactors done all at once (like the accessibility pass) sometimes broke unrelated things like the responsive layout. Smaller, incremental steps with verification between them worked better.
+
+## Author
+
+- Website - [Laura Elena Mesa](https://portfolio-app-three-red.vercel.app/)
+- Frontend Mentor - [@laurymesa01](https://www.frontendmentor.io/profile/laurymesa01)
+- LinkedIn - [@lauraelenamesa](https://www.linkedin.com/in/lauraelenamesa/)
