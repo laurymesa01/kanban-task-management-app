@@ -91,7 +91,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Solution URL: [Frontend Mentor Kanban Task Management App](https://www.frontendmentor.io/solutions/kanban-task-management-app-with-react-and-tailwind-4NnLmJqpvo)
 - Live Site URL: [Kanban Task Management App](https://kanban-task-management-app-n7ya.vercel.app/)
 
 ## My process
